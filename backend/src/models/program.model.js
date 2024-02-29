@@ -28,8 +28,8 @@ const programSchema = new mongoose.Schema({
     ],
     status: {
         type: String,
-        enum: ["pending", "completed"],
-        default: "pending"
+        enum: ["pending", "completed","not attempted"],
+        default: "not attempted"
     },
     keywords:[
         {
