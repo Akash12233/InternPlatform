@@ -17,6 +17,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    refreshtoken: {
+        type: String
+    },
     avatar: {
         type: String,//cloudinary url
     },
