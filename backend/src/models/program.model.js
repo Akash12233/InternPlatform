@@ -34,13 +34,13 @@ const programSchema = new mongoose.Schema({
     keywords:[
         {
             type:String,
-            default:true
+            required:true
         }
     ],
     skils:[
         {
             type:String,
-            default:true
+            required:true
         }
     ]
 
