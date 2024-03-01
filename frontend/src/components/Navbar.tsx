@@ -6,7 +6,7 @@ import { useState } from "react";
 const Navbar = () => {
     const [open, setOpen] = useState(false);
   return (
-    <nav className="w-full fixed flex border-b-2 gap-4 justify-between items-center bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded" >
+    <nav className="w-full sticky top-0 z-50 flex border-b-2 gap-4 justify-between items-center bg-white backdrop-blur-sm opacity-95 border-gray-200 px-2 sm:px-4 py-2.5 rounded" >
         <div className="w-1/3" >
             <Link to={"/"} > <img src={logo} className="h-20 w-auto mr-3  sm:h-28" alt="logo" /></Link>
             
@@ -81,9 +81,9 @@ const Navbar = () => {
                         </svg>
                     </button>
                 </li>
-                <li className="hover:bg-black hover:text-[#eee49d] px-5 py-2 rounded transition cursor-pointer duration-300 ease-in-out" ><Link to="/"> Home</Link></li>
-                <li className="hover:bg-black hover:text-[#eee49d] px-5 py-2 rounded transition cursor-pointer duration-300 ease-in-out" ><Link to="/about">About</Link></li>
-                <li className="hover:bg-black hover:text-[#eee49d] px-5 py-2 rounded transition cursor-pointer duration-300 ease-in-out" ><Link to="/programs"> Programs</Link></li>
+                <li className="hover:bg-black hover:text-[#eee49d] px-5 py-2 rounded transition cursor-pointer duration-300 ease-in-out" onClick={() => setOpen(!open)} ><Link to="/"> Home</Link></li>
+                <li className="hover:bg-black hover:text-[#eee49d] px-5 py-2 rounded transition cursor-pointer duration-300 ease-in-out"onClick={() => setOpen(!open)} ><Link to="/about">About</Link></li>
+                <li className="hover:bg-black hover:text-[#eee49d] px-5 py-2 rounded transition cursor-pointer duration-300 ease-in-out" onClick={() => setOpen(!open)}><Link to="/programs"> Programs</Link></li>
                 </ul>
             )}
             
