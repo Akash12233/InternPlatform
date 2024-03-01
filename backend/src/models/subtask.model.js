@@ -22,6 +22,10 @@ const subtaskSchema = new mongoose.Schema({
         enum: ["pending", "completed", "NotAttempted"],
         default: "NotAttempted"
     },
+    oftasks:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "task"
+    },
     verified: {
         type: Boolean,
         default: false

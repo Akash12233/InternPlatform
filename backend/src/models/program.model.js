@@ -20,12 +20,10 @@ const programSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    tasksopt:[
-        {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"task"
-        }
-    ],
+    useropt:{
+        type: mongoose.Schema.Types.ObjectId,
+        required:true,
+    },
     status: {
         type: String,
         enum: ["pending", "completed"],

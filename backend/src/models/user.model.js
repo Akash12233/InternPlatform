@@ -27,19 +27,7 @@ const userSchema = new mongoose.Schema({
     },
     avatar: {
         type: String,//cloudinary url
-    },
-    programOpt:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"program"
-    }],
-    programcompleted:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"program"
-    }],
-    transactionOpt:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"transaction"
-    }]
+    }
 }, 
 
 {

@@ -283,7 +283,8 @@ const updateavatar= asynHandler(async(res, req)=>{
     return res
     .status(200)
     .json(new ApiResponse(200, User, "Avatar updated successfully"))
-})
+});
+
 
 
 export {
