@@ -8,6 +8,7 @@ import {registerUser,
         updateavatar,
         refreshAccessToken} from "../controllers/user.controller.js";
 import { verifyjwt } from "../middlewares/userauth.middleware.js";
+import { upload } from "../middlewares/multer.middleware.js";
 
 
 const Userrouter= Router();

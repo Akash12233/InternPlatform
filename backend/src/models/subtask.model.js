@@ -13,26 +13,13 @@ const subtaskSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    solutionsubmitted: {
-        type: String,
-        required: true
-    },
-    status: {
-        type: String,
-        enum: ["pending", "completed", "NotAttempted"],
-        default: "NotAttempted"
-    },
-    oftasks:{
+    task_id:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "task"
-    },
-    verified: {
-        type: Boolean,
-        default: false
-    }    
+    }  
 }, { 
     timestamps: true 
 });
 
-const Subtask = mongoose.model("Subtask", subtaskSchema);
-export default Subtask;
+const subtask = mongoose.model("subtask", subtaskSchema);
+export default subtask;

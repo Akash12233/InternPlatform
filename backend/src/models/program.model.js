@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 const programSchema = new mongoose.Schema({
     heading: {
@@ -20,22 +21,17 @@ const programSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    useropt:{
+    useropt:[{
         type: mongoose.Schema.Types.ObjectId,
         required:true,
-    },
-    status: {
-        type: String,
-        enum: ["pending", "completed"],
-        default: "pending"
-    },
+    }],
     keywords:[
         {
             type:String,
             default:true
         }
     ],
-    skils:[
+    skills:[
         {
             type:String,
             default:true
@@ -47,6 +43,7 @@ const programSchema = new mongoose.Schema({
 {
     timestamps: true
 });
+
 
 const program = mongoose.model("program", programSchema);
 

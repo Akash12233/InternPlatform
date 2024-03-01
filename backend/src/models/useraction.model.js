@@ -17,12 +17,22 @@ const useractionSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref:"subtask"
     },
+    solutionsubmitted:{
+        type: File,
+        required: true
+    },
     status:{
         type: Boolean,
         default: false
-    }
+    },
+    verified: {
+        type: Boolean,
+        default: false
+    }  
 
 })
+
+
 
 const useraction= mongoose.model("useraction", useractionSchema);
 
