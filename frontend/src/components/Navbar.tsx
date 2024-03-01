@@ -8,7 +8,7 @@ const Navbar = () => {
   return (
     <nav className="w-full fixed flex border-b-2 gap-4 justify-between items-center bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded" >
         <div className="w-1/3" >
-            <Link to={"/"} > <img src={logo} className="h-20 w-auto mr-3 sm:h-9 sm:h-28" alt="logo" /></Link>
+            <Link to={"/"} > <img src={logo} className="h-20 w-auto mr-3  sm:h-28" alt="logo" /></Link>
             
         </div>
         <div className=" w-1/3 flex flex-col justify-center items-center  font-semibold rounded-full " >
