@@ -3,4 +3,8 @@ import logoWhite from "./logo-white.svg";
 import logo from "./logo-no-background.svg";
 import logoColor from "./logo-color.svg";
 import intern from "./4574122.jpg";
-export { logo, logoBlack, logoWhite, logoColor, intern };
+import company1 from "./Accenture-logo.png";
+import company2 from "./capgemini.png";
+import company3 from "./tcs.png";
+import company4 from "./Deloitte.jpg"
+export { logo, logoBlack, logoWhite, logoColor, intern, company1, company2, company3, company4 };
