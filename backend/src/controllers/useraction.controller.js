@@ -110,7 +110,7 @@ const verifyingsolution = asyncHandler(async (req, res, next) => {
         throw new ApiError(401, "Fields are required");
     }
     const userAction = await useraction.findOne({
-        user_id: req.user_id,
+        user_id: user_id,
         program_id: program_id,
         task_id: task_id,
         subtask_id: subtask_id,
@@ -145,9 +145,29 @@ const verifyingsolution = asyncHandler(async (req, res, next) => {
 
 });
 
+const completedsubtasks = asyncHandler(async (req, res, next) => {
+    const {program_id, task_id}=req.body;
+
+    const completedsubtask= await useraction.find({
+        user_id: req.user._id,
+        program_id: program_id,
+        task_id: task_id,
+        verified: true
+    })
+
+    if(!completedsubtask){
+        throw new ApiError(401, "User action not found");
+    }
+
+    return res 
+    .status(200)
+    .json(new ApiResponse(200, completedsubtask, "User action fetched successfully"));
+});
+
 export default {
     addUseraction,
     addsolution,
     getuseraction,
-    verifyingsolution
+    verifyingsolution,
+    completedsubtasks
 }

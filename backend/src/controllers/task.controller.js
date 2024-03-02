@@ -125,7 +125,80 @@ const updateTask= asyncHandler(async (req, res, next) => {
     .status(200)
     .json(new ApiResponse(200, updatedtask, "Task updated successfully"));
 
+});
+
+const gettaskdone = asyncHandler(async (req, res, next) => {
+    const {task_id,program_id}= req.body;
+    const user_id= req.user._id;
+    const taskDone =await task.aggregate([
+        {
+          $match: {
+            _id: mongoose.Types.ObjectId(task_id)
+          }
+        },
+        // Lookup subtasks associated with each task
+        {
+          $lookup: {
+            from: "useractions", 
+            localField: "_id",
+            foreignField: "task_id",
+            as: "subtasks"
+          }
+        },
+        {
+            $addFields: {
+                allsubtaks: {
+                    $size: {$filter: {
+                            input: "$subtasks",
+                            as: "useraction",
+                            cond: {
+                            $and: [
+                                { $eq: ["$$useraction.user_id", user_id] },
+                                { $eq: ["$$useraction.program_id", program_id] } 
+                            ]
+                            }
+                        }
+                    }
+                },
+                allSubtasksVerified: {
+                    $size: {
+                        $filter: {
+                          input: "$subtasks",
+                          as: "useraction",
+                          cond: {
+                            $and: [
+                              { $eq: ["$$useraction.verified", true] }, // First condition
+                              { $eq: ["$$useraction.user_id", user_id] },
+                              { $eq: ["$$useraction.program_id", program_id] } 
+                            ]
+                          }
+                        }
+                    }
+                }
+            }
+        },
+        {
+          $project: {
+            _id: 1,
+            heading: 1,
+            allsubtaks: 1,
+            allSubtasksVerified: 1
+          }
+        },
+      ]);
+      
+      console.log(taskDone);
+
+      if(!taskDone?.length){
+        throw new ApiError(404, "Task not found");
+      }
+
+      return res 
+      .status(200)
+      .json(new ApiResponse(200, taskDone[0], "Task fetched successfully"));
 })
+
+  
 
 
 export {
@@ -134,5 +207,6 @@ export {
     allTasks,
     allTaskbyprogramId,
     deleteTask,
-    updateTask
+    updateTask,
+    gettaskdone
 }

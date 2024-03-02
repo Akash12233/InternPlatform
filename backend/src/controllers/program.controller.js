@@ -173,6 +173,70 @@ const updatedProgram= asyncHandler(async (req, res, next) => {
     .json(new ApiResponse(200, updatedprogram, "Program updated successfully"));
 })
 
+const getprogramdone= asyncHandler(async (req, res, next) => {
+    const program_id= req.body;
+
+    const programdone = await program.aggregate([
+        {
+            $match:{
+                _id: mongoose.Types.ObjectId(program_id)
+            }
+        },
+        {
+            $lookup:{
+                from: "useractions",
+                localField: "_id",
+                foreignField: "program_id",
+                as: "useractions"
+            }
+        },
+        {
+            $addFields: {
+                allcontent: {
+                    $size: {$filter: {
+                            input: "$useractions",
+                            as: "useraction",
+                            cond: {
+                                 $eq: ["$$useraction.user_id", user_id] 
+                            }
+                        }
+                    }
+                },
+                allcontentVerified: {
+                    $size: {
+                        $filter: {
+                          input: "$subtasks",
+                          as: "useraction",
+                          cond: {
+                            $and: [
+                              { $eq: ["$$useraction.verified", true] }, // First condition
+                              { $eq: ["$$useraction.user_id", user_id] }
+                            ]
+                          }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            $project:{
+                _id:1,
+                heading:1,
+                allcontent:1,
+                allcontentVerified:1,
+            }
+        }
+    ])
+
+    if(!programdone?.length){
+        throw new ApiError(404, "Program not found");
+    }
+    return res 
+    .status(200)
+    .json(new ApiResponse(200, programdone[0], "Program done successfully"));
+
+})
+
 
 export {
     registerProgram,
@@ -181,5 +245,6 @@ export {
     allprograms,
     deleteprogram,
     removeUser,
-    updatedProgram
+    updatedProgram,
+    getprogramdone
 }

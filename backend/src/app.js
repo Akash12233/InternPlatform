@@ -32,5 +32,8 @@ app.use("/api/v1/subtask", subtaskrouter);
 import transactionrouter from "./routes/transaction.route.js";
 app.use("/api/v1/transaction", transactionrouter);
 
+import useraction from "./models/useraction.model.js";
+app.use("/api/v1/useraction", useraction);
+
 
 export { app }

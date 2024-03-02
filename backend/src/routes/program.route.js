@@ -5,7 +5,8 @@ import {registerProgram,
     allprograms,
     deleteprogram,
     removeUser,
-    updatedProgram} from "../controllers/program.controller.js";
+    updatedProgram,
+    getprogramdone} from "../controllers/program.controller.js";
 import {verifyjwt} from "../middlewares/userauth.middleware.js";
 
 
@@ -27,5 +28,6 @@ programrouter.route("/allprograms").get(verifyjwt, allprograms)
 programrouter.route("/deleteprogram").post(verifyjwt, deleteprogram)
 programrouter.route("/removeuser").post(verifyjwt, removeUser)
 programrouter.route("/updateprogram").patch(verifyjwt, updatedProgram)
+programrouter.route("/getprogramdone").get(verifyjwt, getprogramdone)
 
 export default programrouter;

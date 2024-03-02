@@ -1,4 +1,4 @@
-import { taskbyId, allTasks, addTask, deleteTask, updateTask, allTaskbyprogramId } from "../controllers/task.controller";
+import { taskbyId, allTasks, addTask, deleteTask, updateTask, allTaskbyprogramId, gettaskdone } from "../controllers/task.controller";
 import { Router } from "express";
 import { verifyjwt } from "../middlewares/userauth.middleware";
 
@@ -11,6 +11,6 @@ taskrouter.route("/addtask").post(verifyjwt, addTask)
 taskrouter.route("/deletetask").post(verifyjwt, deleteTask)
 taskrouter.route("/updatetask").patch(verifyjwt, updateTask)
 taskrouter.route("/alltaskbyprogramid").get(verifyjwt, allTaskbyprogramId)
-
+taskrouter.route("/gettaskdone").get(verifyjwt, gettaskdone)
 
 export default taskrouter
