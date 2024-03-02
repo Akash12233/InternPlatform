@@ -23,12 +23,12 @@ Userrouter.route("/register").post(
     ]),
     registerUser
     )
-
-    //secured routes
 Userrouter.route("/login").post(loginUser)
+    //secured routes
+
 Userrouter.route("/logout").post(verifyjwt,  logoutUser)
 Userrouter.route("/refresh-token").post(refreshAccessToken)
-Userrouter.route("/change-password").post(verifyjwt, changecurrentPassword)
+Userrouter.route("/change-password").patch(verifyjwt, changecurrentPassword)
 Userrouter.route("/current-user").get(verifyjwt, getcurrentuser)
 Userrouter.route("/update-account").patch(verifyjwt, updateAccountDetails)
 Userrouter.route("/allusers").get(verifyjwt, getAllUsers)

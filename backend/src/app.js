@@ -10,8 +10,8 @@ app.use(cors({
     credentials: true
 }))
 
-app.use(express.json({limit: "50kb"}))
-app.use(express.urlencoded({extended: true, limit: "16kb"}))
+app.use(express.json())
+app.use(express.urlencoded({extended: true, limit: "100kb"}))
 app.use(express.static("public"))
 app.use(cookieParser())
 
@@ -32,8 +32,8 @@ app.use("/api/v1/subtask", subtaskrouter);
 import transactionrouter from "./routes/transaction.route.js";
 app.use("/api/v1/transaction", transactionrouter);
 
-import useraction from "./models/useraction.model.js";
-app.use("/api/v1/useraction", useraction);
+import useractionrouter from "./models/useraction.model.js";
+app.use("/api/v1/useraction", useractionrouter);
 
 
 export { app }

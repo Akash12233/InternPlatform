@@ -14,4 +14,4 @@ useractionrouter.route("/addsolution").post(verifyjwt,upload.single("solution"),
 useractionrouter.route("/getuseraction").get(verifyjwt,getuseraction)
 useractionrouter.route("/verifyingsolution").post(verifyjwt,verifyingsolution)
 
-export default useractionrouter
+export default useractionrouter;
