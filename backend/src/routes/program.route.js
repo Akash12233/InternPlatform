@@ -8,6 +8,7 @@ import {registerProgram,
     updatedProgram,
     getprogramdone} from "../controllers/program.controller.js";
 import {verifyjwt} from "../middlewares/userauth.middleware.js";
+import { upload } from "../middlewares/multer.middleware.js";
 
 
 const programrouter= Router();

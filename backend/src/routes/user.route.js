@@ -6,7 +6,8 @@ import {registerUser,
         getAllUsers,
         changecurrentPassword,
         updateavatar,
-        refreshAccessToken} from "../controllers/user.controller.js";
+        refreshAccessToken,
+        updateAccountDetails} from "../controllers/user.controller.js";
 import { verifyjwt } from "../middlewares/userauth.middleware.js";
 import { upload } from "../middlewares/multer.middleware.js";
 

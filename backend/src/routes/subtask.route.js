@@ -4,9 +4,10 @@ import { subtaskbyId,
     addsubTask, 
     deletesubTask, 
     updatesubTask, 
-    updateSolution } from "../controllers/subtask.controller";
-import { verifyjwt } from "../middlewares/userauth.middleware";
+    updateSolution } from "../controllers/subtask.controller.js";
+import { verifyjwt } from "../middlewares/userauth.middleware.js";
 import { Router } from "express";
+import { upload } from "../middlewares/multer.middleware.js";
 
 
 const subtaskrouter= Router();

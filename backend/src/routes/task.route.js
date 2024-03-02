@@ -1,6 +1,6 @@
-import { taskbyId, allTasks, addTask, deleteTask, updateTask, allTaskbyprogramId, gettaskdone } from "../controllers/task.controller";
+import { taskbyId, allTasks, addTask, deleteTask, updateTask, allTaskbyprogramId, gettaskdone } from "../controllers/task.controller.js";
 import { Router } from "express";
-import { verifyjwt } from "../middlewares/userauth.middleware";
+import { verifyjwt } from "../middlewares/userauth.middleware.js";
 
 
 const taskrouter= Router();

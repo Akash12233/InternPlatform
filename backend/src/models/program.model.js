@@ -24,7 +24,7 @@ const programSchema = new mongoose.Schema({
     useropt:[{
         type: mongoose.Schema.Types.ObjectId,
         required:true,
-    }],
+    }], 
     keywords:[
         {
             type:String,

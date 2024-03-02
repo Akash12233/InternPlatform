@@ -1,5 +1,4 @@
 import {ApiError} from "../utils/ApiError.js"
-import { ApiError } from "../utils/ApiError.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import program from "../models/program.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";

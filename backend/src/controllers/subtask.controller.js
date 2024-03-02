@@ -166,11 +166,11 @@ const updateSolution= asyncHandler(async (req, res, next) => {
 
 
 export {
-    registersubTask,
     subtaskbyId,
     allsubTasks,
     allsubTaskbytaskId,
     deletesubTask,
     updatesubTask,
-    updateSolution
+    updateSolution,
+    addsubTask
 }

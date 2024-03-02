@@ -1,10 +1,7 @@
-import {asynHandler} from "../utils/asyncHandler.js";
-import user from "../models/user.model.js";
-import {ApiError} from "../utils/ApiError.js"
+import {asyncHandler} from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
-
 import user from "../models/user.model.js";
 
 const generateAccessTokenandRefreshToken = async(userId) => {
@@ -27,7 +24,7 @@ const generateAccessTokenandRefreshToken = async(userId) => {
     }
 };
 
-const registerUser =asynHandler(async (res, req)=>{
+const registerUser =asyncHandler(async (res, req)=>{
     // get user details from frontend
 
     const {firstname, lastname, email, password} = req.body;
@@ -80,7 +77,7 @@ const registerUser =asynHandler(async (res, req)=>{
     )
 });
 
-const loginUser= asynHandler( async (res, req)=> {
+const loginUser= asyncHandler( async (res, req)=> {
     const {email,username, password} = req.body;
     //console.log(email, username, password);
 
@@ -127,7 +124,7 @@ const loginUser= asynHandler( async (res, req)=> {
 
 })
 
-const logoutUser = asynHandler( async (res, req, next)=>{
+const logoutUser = asyncHandler( async (res, req, next)=>{
     await user.findByIdAndUpdate(
         req.user._id,
         {
@@ -154,7 +151,7 @@ const logoutUser = asynHandler( async (res, req, next)=>{
     )
 })
 
-const refreshAccessToken = asynHandler( async (res, req,_)=>{
+const refreshAccessToken = asyncHandler( async (res, req,_)=>{
     const incomingRefreshToken = req.cookies?.refreshtoken || req.body.refrehtoken;
     if(!incomingRefreshToken){
         throw new ApiError(401, "User not authenticated");
@@ -197,7 +194,7 @@ const refreshAccessToken = asynHandler( async (res, req,_)=>{
     }
 })
 
-const changecurrentPassword= asynHandler(async(res, req)=>{
+const changecurrentPassword= asyncHandler(async(res, req)=>{
     const {currentPassword, newPassword}= req.body;
 
     const User= user.findById(req.user?._id);
@@ -217,7 +214,7 @@ const changecurrentPassword= asynHandler(async(res, req)=>{
     )
 })
 
-const getcurrentuser= asynHandler(async(res, req)=>{
+const getcurrentuser= asyncHandler(async(res, req)=>{
     return res
     .status(200)
     .json(
@@ -225,7 +222,7 @@ const getcurrentuser= asynHandler(async(res, req)=>{
     )
 })
 
-const getAllUsers= asynHandler(async(res, req)=>{
+const getAllUsers= asyncHandler(async(res, req)=>{
     const users= await user.find();
     return res 
     .status(200)
@@ -234,7 +231,7 @@ const getAllUsers= asynHandler(async(res, req)=>{
     )
 })
 
-const updateAccountDetails= asynHandler(async(res, req)=>{
+const updateAccountDetails= asyncHandler(async(res, req)=>{
     const {firstname, lastname, email}= req.body;
 
     if(!firstname && !lastname && !email){
@@ -257,7 +254,7 @@ const updateAccountDetails= asynHandler(async(res, req)=>{
 
 })
 
-const updateavatar= asynHandler(async(res, req)=>{
+const updateavatar= asyncHandler(async(res, req)=>{
     const updateLocalpath= req.file?.avatar[0]?.path;
 
     if(!updateLocalpath){
