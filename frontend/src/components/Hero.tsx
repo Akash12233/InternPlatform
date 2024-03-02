@@ -20,7 +20,7 @@ const Hero = () => {
 Shape your future. Intern at the forefront of innovation.
                 </p>
                 <div className="flex mt-8">
-                    <Link to="/programs" className="uppercase py-3 px-4 flex gap-2  rounded-lg bg-black border-2 border-transparent text-[#eee49d] text-md mr-4 hover:bg-[#eee49d] hover:text-black">
+                    <Link to="/programs" className="uppercase py-3 px-4 flex gap-2 transition duration-2000 ease-in   rounded-lg bg-black border-2 border-transparent text-[#eee49d] text-md mr-4 hover:bg-[#eee49d] hover:text-black">
                     Explore Internship Now <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
   <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
 </svg>
