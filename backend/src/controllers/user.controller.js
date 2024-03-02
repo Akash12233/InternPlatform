@@ -4,7 +4,7 @@ import {ApiError} from "../utils/ApiError.js"
 import { ApiError } from "../utils/ApiError.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
-import mongoose from "mongoose";
+
 import user from "../models/user.model.js";
 
 const generateAccessTokenandRefreshToken = async(userId) => {
