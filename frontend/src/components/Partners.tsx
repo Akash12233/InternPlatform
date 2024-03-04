@@ -6,7 +6,7 @@ const Partners: React.FC = () => {
   return (
     <div className="w-full flex flex-col justify-center items-center " >
         <h1 className="text-3xl font-semibold" >Our Partners</h1>
-        <hr className="h-2 bg-black w-ful my-4 text-black" />
+        <hr className=' w-1/6 h-1 my-5 bg-[#eee49d]'  />
         <div className="w-full px-2 flex overflow-x-scroll justify-between items-center" >
             
             <img src={company1} className="w-1/4  object-fit h-auto" alt="Company 1" />
