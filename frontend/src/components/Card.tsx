@@ -23,11 +23,12 @@ import {
 const CardItem: React.FC<Props> = ({image, title, description, duration, skills}) => {
   const skill = skills.split(",");
   return (
-    <Card className="w-full max-w-[26rem] shadow-lg"  placeholder={undefined}>
+    <Card className="w-full max-w-[26rem] h-96 shadow-lg"  placeholder={undefined}>
     <CardHeader floated={false} color="blue-gray"  placeholder={undefined}>
       <img
         src={image}
         alt={title}
+        className='object-cover w-full h-full'
       />
       <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
       
