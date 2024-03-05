@@ -7,4 +7,5 @@ import company1 from "./Accenture-logo.png";
 import company2 from "./capgemini.png";
 import company3 from "./tcs.png";
 import company4 from "./Deloitte.jpg"
-export { logo, logoBlack, logoWhite, logoColor, intern, company1, company2, company3, company4 };
+import whoCanJoin from "./whocanjoin.jpg";
+export { logo, logoBlack, logoWhite, logoColor, intern, company1, company2, company3, company4, whoCanJoin };

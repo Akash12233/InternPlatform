@@ -3,6 +3,8 @@ import Choose from "../components/Choose"
 import Hero from "../components/Hero"
 import Partners from "../components/Partners"
 import PopularPrograms from "../components/PopularPrograms"
+import Testimonials from "../components/Testimonials"
+
 
 
 
@@ -13,6 +15,7 @@ const Home = () => {
         <Partners />
         <PopularPrograms />
         <Choose />
+        <Testimonials/>
     </div>
   )
 }
