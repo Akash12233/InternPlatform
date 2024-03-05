@@ -1,5 +1,6 @@
 
 import Choose from "../components/Choose"
+import Contact from "../components/Contact"
 import Hero from "../components/Hero"
 import Partners from "../components/Partners"
 import PopularPrograms from "../components/PopularPrograms"
@@ -16,6 +17,7 @@ const Home = () => {
         <PopularPrograms />
         <Choose />
         <Testimonials/>
+        <Contact />
     </div>
   )
 }
