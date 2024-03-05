@@ -1,4 +1,5 @@
 
+import Choose from "../components/Choose"
 import Hero from "../components/Hero"
 import Partners from "../components/Partners"
 import PopularPrograms from "../components/PopularPrograms"
@@ -11,6 +12,7 @@ const Home = () => {
         <Hero/>
         <Partners />
         <PopularPrograms />
+        <Choose />
     </div>
   )
 }

@@ -13,7 +13,7 @@ interface item{
 const PopularPrograms: React.FC = () => {
 
   return (
-    <div className='flex flex-col items-center' >
+    <div className='flex mt-10 flex-col items-center' >
         <h1 className='text-3xl font-semibold' >Our Popular Programs</h1>
         <hr className=' w-1/6 h-1 my-5 bg-[#eee49d]'  />
         <div className='flex w-full items-center' >
@@ -23,7 +23,7 @@ const PopularPrograms: React.FC = () => {
             ))}
               
           </Carousel>
-          <div className='hidden md:flex w-full ' >
+          <div className='hidden md:flex gap-2 w-full mx-auto items-center jsutify-center ' >
           {smapleInternships.map((item: item) => (
               <CardItem image={item.image} title={item.title} description={item.description} duration={item.duration} skills={item.skills} />
             ))}
