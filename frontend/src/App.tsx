@@ -4,25 +4,30 @@ import './App.css'
 import Home from './pages/Home'
 import About from './pages/About'
 import Program from './pages/Program'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
+
+import Error from './pages/Error'
+import PageLayout from './pages/PageLayout'
 
 function App() {
  
 
   return (
     <>
+      <meta name="theme-color" content="black"></meta>
     <BrowserRouter>
-    <Navbar/>
+   
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/programs" element={<Program />} />
-        <Route path="*" element={<Home />} />
+        <Route element={<PageLayout />} >
+
+       
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/programs" element={<Program />} />
+        </Route>
+    <Route path="*" element={<Error />} />
       </Routes>
-    <Footer />
+   
     </BrowserRouter>
-    
     </>
   )
 }

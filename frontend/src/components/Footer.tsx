@@ -1,11 +1,11 @@
 import React from 'react'
-import { logo } from '../assets'
+import {  logo} from '../assets'
 
 const Footer: React.FC = () => {
   return (
-    <div className="text-center">
-    <a href="#" className="flex items-center justify-center mb-5 text-2xl font-semibold text-gray-900 dark:text-white">
-        <img src={logo} className="h-32 mr-3 sm:h-10" alt="Landwind Logo"/>
+    <div className="text-center  w-full bg-black">
+    <a href="/" className="flex items-center justify-center mb-5 text-2xl font-semibold text-gray-900 dark:text-white">
+        <img src={logo} className="h-16 mr-3 sm:h-48" alt="Landwind Logo"/>
 		
     </a>
 

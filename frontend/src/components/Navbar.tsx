@@ -113,7 +113,7 @@ const Navbar = () => {
                         </svg>
                     </button>
             </div>
-            <button className="bg-black md:w-1/3 w-full text-[#eee49d] py-2 px-4 rounded font-semibold " ><Link to="/login">Login</Link></button>
+            <Link to="/login" className="bg-black md:w-1/3 w-full text-center text-[#eee49d] py-2 px-4 rounded font-semibold ">Login</Link>
         </div>
     </nav>
   )
