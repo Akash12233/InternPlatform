@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import About from './pages/About'
 import Program from './pages/Program'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
 function App() {
  
@@ -19,7 +20,7 @@ function App() {
         <Route path="/programs" element={<Program />} />
         <Route path="*" element={<Home />} />
       </Routes>
-    
+    <Footer />
     </BrowserRouter>
     
     </>
