@@ -1,8 +1,28 @@
-// import React from 'react'
+ import React from 'react'
 
-const Program = () => {
+import CardItem from "../components/Card"
+import smapleInternships from "./intern"
+interface item{
+  image: string,
+    title: string,
+    description: string,
+    duration: number,
+    skills: string
+}
+const Program: React.FC = () => {
   return (
-    <div>Program</div>
+    <div className='flex flex-col items-center justify-center ' >
+      <h1 className='text-3xl font-semibold' >Our All Programs</h1> 
+      <hr className=' w-1/6 h-1 my-5 bg-[#eee49d]'  />
+      <div className='flex flex-wrap justify-center items-center ' >
+          {smapleInternships.map((item:item)=>{
+            return(
+              <CardItem image={item.image} title={item.title} description={item.description} duration={item.duration} skills={item.skills} />
+            )
+          })}
+
+      </div>
+    </div>
   )
 }
 
