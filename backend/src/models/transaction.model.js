@@ -18,6 +18,10 @@ const transactionSchema = new mongoose.Schema({
     ProgramPaid:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"program"
+    },
+    userPaid:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"user"
     }
 },
  { 

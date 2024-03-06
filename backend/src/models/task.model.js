@@ -9,12 +9,10 @@ const taskSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    subtasksopt:[
-        {
+    program_id:{
             type:mongoose.Schema.Types.ObjectId,
-            ref:"subtask"
-        }
-    ],
+            ref:"program"
+    },
     skils:[
         {
             type:String,
