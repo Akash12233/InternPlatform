@@ -10,4 +10,5 @@ import company4 from "./Deloitte.jpg"
 import whoCanJoin from "./whocanjoin.jpg";
 import abhishek from "./abhishek.jpg";
 import akash from "./akash.png";
-export { logo, logoBlack, logoWhite, logoColor, intern, company1, company2, company3, company4, whoCanJoin,akash, abhishek };
+import uploadArea from "./upload_area.svg";
+export { logo, logoBlack, logoWhite, logoColor, intern, company1, company2, company3, company4, whoCanJoin,akash, abhishek, uploadArea };

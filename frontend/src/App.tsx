@@ -7,6 +7,8 @@ import Program from './pages/Program'
 
 import Error from './pages/Error'
 import PageLayout from './pages/PageLayout'
+import Login from './pages/student/Login'
+import Register from './pages/student/register'
 
 function App() {
  
@@ -24,6 +26,8 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/programs" element={<Program />} />
         </Route>
+        <Route path='/login' element={<Login/>} />
+        <Route path='/signup' element={<Register/>} />
     <Route path="*" element={<Error />} />
       </Routes>
    
