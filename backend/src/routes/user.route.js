@@ -13,7 +13,7 @@ import { upload } from "../middlewares/multer.middleware.js";
 
 
 const Userrouter= Router();
-
+ 
 Userrouter.route("/register").post(
     upload.fields([
         {

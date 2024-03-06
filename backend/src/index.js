@@ -1,12 +1,18 @@
 // require('dotenv').config({path: './env'})
 import dotenv from "dotenv"
 import connectDB from "./db/index.js";
+import cors from "cors";
 import {app} from './app.js'
 dotenv.config({
     path: './.env.sample'
 })
 
 
+
+app.use((req, res, next) => {
+    console.log(req.path, req.method);
+    next();
+})
 
 connectDB() 
 .then(() => {

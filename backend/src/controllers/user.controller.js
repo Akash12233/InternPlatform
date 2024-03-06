@@ -28,30 +28,31 @@ const generateAccessTokenandRefreshToken = async(userId) => {
 
 const registerUser =asyncHandler(async (req, res)=>{
     // get user details from frontend
-
+// console.log(req.body);
+// console.log(req.files);
     const {firstname, lastname, username, email, password} = req.body;
 
-    if([ firstname,lastname,username,email, password].some((field) => field?.trim() === "")
-    ){
-        throw new ApiError (409,"All fields are required");
-    }
+    
     
     const existedUser = await user.findOne({
         $or: [{email}, {username}]
     });
 
     if(existedUser){
-        throw new ApiError(401, "User already exists");
+        return res.status(401).json("Email or Username already exists");
+       
     }
 
     const avatarLocalPath = req.files?.avatar[0]?.path;
 
     if(!avatarLocalPath){
-        throw new ApiError(400, "Profile picture is required");
+        return res.status(400).json("Please select an image");
+        
+        
     }
-
+    
     const avatar= await uploadOnCloudinary(avatarLocalPath);
-
+    // console.log(avatar);
     if(!avatar){
         throw new ApiError(400, "Something went wrong");
     }

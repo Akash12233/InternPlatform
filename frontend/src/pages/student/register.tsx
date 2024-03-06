@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
 import { logo, uploadArea } from '../../assets'
-import { useForm } from 'react-hook-form';
+import {  SubmitHandler, useForm } from 'react-hook-form';
+import axios from 'axios';
+import { Circles } from 'react-loader-spinner';
 
 type Inputs = {
     firstname: string;
@@ -15,11 +18,48 @@ const Register: React.FC = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
     const [file, setFile] = useState<Blob>({} as Blob);
     const [image, setImage] = useState(uploadArea);
-
-    const handleUpload = () => {
+    const [loader, setLoader] = useState(false);
+    const [error, setError] = useState("");
+  
+    const handleUpload: SubmitHandler<Inputs> =async (data) => {
+        setError("");
+        setLoader(true);
         const formData = new FormData();
-        formData.append('file', file);
-    
+        formData.append('avatar', file);
+        formData.append('firstname', data.firstname);
+        formData.append('lastname', data.lastname);
+        formData.append('username', data.username);
+        formData.append('email', data.email);
+        formData.append('password', data.password);
+
+        console.log(data);
+        console.log(formData.get('avatar'));
+        
+        
+        if(formData != null){
+            try {
+                const upload = await axios.post("http://localhost:8000/api/v1/user/register",formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            })
+            console.log(upload);
+            setLoader(false);
+            } catch (error:any) {
+                console.log(error.response.data);
+            setLoader(false);
+            setError(error.response.data.message);
+                
+            }
+            
+            
+            // Upload the image to your server here
+        }
+        else{
+            alert("Please select an image");
+            setLoader(false);
+
+        }
         // Upload the image to your server here
       };
       const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +84,7 @@ const Register: React.FC = () => {
                 <p className="block mt-1 font-sans text-base antialiased font-normal leading-relaxed text-gray-700">
                     Nice to meet you! Enter your details to Login.
                 </p>
-                <form className="max-w-screen-xl h-full mt-8 mb-2 w-80 sm:w-96" onSubmit={handleSubmit((data) => console.log(data))}>
+                <form className="max-w-screen-xl h-full mt-8 mb-2 w-80 sm:w-96" onSubmit={handleSubmit(handleUpload)}>
                     <div className="flex flex-wrap gap-6 mb-1">
                         <div className='flex justify-center items-center w-full' >
                             <label htmlFor="upload" className='cursor-pointer'>
@@ -164,14 +204,24 @@ const Register: React.FC = () => {
                     </div>
 
                     <button
-                        className="mt-6 block w-full select-none rounded-lg bg-gray-900 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-[#eee49d] shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                        className="mt-6 flex justify-center w-full items-center select-none rounded-lg bg-gray-900 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-[#eee49d] shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                         type="submit">
-                        sign up
+                        {loader && <Circles
+                            height="25"
+                            width="25"
+                            color="#4fa94d"
+                            ariaLabel="circles-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                            visible={true}
+                            />}
+                            {!loader && "Sign up"}
                     </button>
+                    <p className='text-red-500' >{error}</p>
                     <p className="block mt-4 font-sans text-base antialiased font-normal leading-relaxed text-center text-gray-700">
-                        New User?
-                        <a href="/signup" className="font-medium text-gray-900">
-                            Sign Up
+                        Already a user?
+                        <a href="/login" className="font-medium text-gray-900">
+                           signin
                         </a>
                     </p>
                 </form>

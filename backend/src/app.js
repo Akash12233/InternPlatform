@@ -5,10 +5,20 @@ import cookieParser from "cookie-parser";
 
 const app = express()
 
-app.use(cors({
-    origin: process.env.CORS_ORIGIN,
-    credentials: true
-}))
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:3000']; // Replace with your allowed origins
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // Include this if you need to send cookies
+};
+
+app.use(cors(corsOptions))
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true, limit: "100kb"}))
