@@ -1,15 +1,41 @@
-import React, { useState } from 'react'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, {  useState } from 'react'
 import { logo } from '../../assets'
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import axios from 'axios';
+
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 type Inputs = {
     email: string;
     password: string;
 }
 const Login: React.FC = () => {
+    const {dispatch} = useAuthContext()
+    const [error, setError] = useState("");
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
-
+    const onSubmit: SubmitHandler<Inputs>= async(data) =>{
+        setError("");
+        console.log(data);
+        try {
+            const user = await axios.post("http://localhost:8000/api/v1/user/login", {
+            email: data.email,
+            password: data.password
+        });
+        console.log(user.data.data.user);
+        localStorage.setItem("user", JSON.stringify(user.data.data.user));
+        localStorage.setItem("refreshToken", user.data.data.refreshToken);
+        localStorage.setItem("accessToken", user.data.data.accessToken);
+        dispatch({type: "LOGIN", payload: user.data.data.user, refreshToken: user.data.data.refreshToken, accessToken: user.data.data.accessToken});
+        } catch (error:any) {
+            console.log(error.response.data);
+            setError(error.response.data);
+            
+        }
+        
+        
+    }
     function togglePasswordVisibility(e: React.MouseEvent) {
         e.preventDefault();
         setIsPasswordVisible((prevState) => !prevState);
@@ -24,7 +50,7 @@ const Login: React.FC = () => {
                 <p className="block mt-1 font-sans text-base antialiased font-normal leading-relaxed text-gray-700">
                     Nice to meet you! Enter your details to Login.
                 </p>
-                <form className="max-w-screen-lg mt-8 mb-2 w-80 sm:w-96" onSubmit={handleSubmit((data) => console.log(data))}>
+                <form className="max-w-screen-lg mt-8 mb-2 w-80 sm:w-96" onSubmit={handleSubmit(onSubmit)}>
                     <div className="flex flex-col gap-6 mb-1">
 
                         <h6
@@ -100,6 +126,7 @@ const Login: React.FC = () => {
                         type="submit">
                         sign up
                     </button>
+                    <p className='text-red-500' >{error}</p>
                     <p className="block mt-4 font-sans text-base antialiased font-normal leading-relaxed text-center text-gray-700">
                         New User?
                         <a href="/signup" className="font-medium text-gray-900">

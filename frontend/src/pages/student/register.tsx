@@ -39,16 +39,20 @@ const Register: React.FC = () => {
         if(formData != null){
             try {
                 const upload = await axios.post("http://localhost:8000/api/v1/user/register",formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                }
-            })
-            console.log(upload);
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    }
+                })
+                 console.log(upload.data.data);
+                 if(upload.data.success){
+                    setError(upload.data.data);
+                 }
             setLoader(false);
             } catch (error:any) {
-                console.log(error.response.data);
-            setLoader(false);
-            setError(error.response.data.message);
+                
+                console.log(error.data.data);
+                setLoader(false);
+                setError(error.data.data);
                 
             }
             
