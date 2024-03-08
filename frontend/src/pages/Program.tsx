@@ -3,6 +3,7 @@
 import CardItem from "../components/Card"
 import smapleInternships from "./intern"
 interface item{
+  _id: number,
   image: string,
     title: string,
     description: string,
@@ -17,7 +18,7 @@ const Program: React.FC = () => {
       <div className='flex flex-wrap justify-center items-center ' >
           {smapleInternships.map((item:item)=>{
             return(
-              <CardItem image={item.image} title={item.title} description={item.description} duration={item.duration} skills={item.skills} />
+              <CardItem key={item._id} id={item._id} image={item.image} title={item.title} description={item.description} duration={item.duration} skills={item.skills} />
             )
           })}
 

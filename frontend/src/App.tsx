@@ -9,13 +9,14 @@ import Error from './pages/Error'
 import PageLayout from './pages/PageLayout'
 import Login from './pages/student/Login'
 import Register from './pages/student/register'
+import ProgramItem from './pages/ProgramItem'
 
 function App() {
  
 
   return (
     <>
-      <meta name="theme-color" content="black"></meta>
+
     <BrowserRouter>
    
       <Routes>
@@ -25,6 +26,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/programs" element={<Program />} />
+          <Route path='/programs/:id' element={<ProgramItem />} />
         </Route>
         <Route path='/login' element={<Login/>} />
         <Route path='/signup' element={<Register/>} />

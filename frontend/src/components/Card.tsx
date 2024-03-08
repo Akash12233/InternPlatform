@@ -12,15 +12,17 @@ import {
     
     Chip,
   } from "@material-tailwind/react";
+import { Link } from 'react-router-dom';
 
   type Props={
+    id: number,
     image: string,
     title: string,
     description: string,
     duration: number,
     skills: string
   }
-const CardItem: React.FC<Props> = ({image, title, description, duration, skills}) => {
+const CardItem: React.FC<Props> = ({id,image, title, description, duration, skills}) => {
   const skill = skills.split(",");
   return (
     <Card className="w-full max-w-[26rem] h-96 shadow-lg"  placeholder={undefined}>
@@ -64,9 +66,11 @@ const CardItem: React.FC<Props> = ({image, title, description, duration, skills}
       </div>
     </CardBody>
     <CardFooter className="pt-3"  placeholder={undefined}>
+      <Link to={`/programs/${id}`} >
       <Button size="lg" fullWidth={true} className='text-[#eee49d]'  placeholder={undefined}>
         Apply Now
       </Button>
+      </Link>
     </CardFooter>
   </Card>
   )

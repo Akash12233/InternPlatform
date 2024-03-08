@@ -8,7 +8,7 @@ const taskSchema = new mongoose.Schema({
     description: {
         type: String,
         required: true
-    },
+    }, 
     program_id:{
             type:mongoose.Schema.Types.ObjectId,
             ref:"program"

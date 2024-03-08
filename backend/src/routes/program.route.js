@@ -24,7 +24,7 @@ programrouter.route("/register").post(
 )
 
 programrouter.route("/adduser").post(verifyjwt, addUser)
-programrouter.route("/programbyid").get(verifyjwt, programbyId)
+programrouter.route("/programbyid").post(verifyjwt, programbyId)
 programrouter.route("/allprograms").get(verifyjwt, allprograms)
 programrouter.route("/deleteprogram").post(verifyjwt, deleteprogram)
 programrouter.route("/removeuser").post(verifyjwt, removeUser)

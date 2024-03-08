@@ -2,6 +2,8 @@ import {ApiError} from "../utils/ApiError.js"
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import program from "../models/program.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import mongoose from "mongoose";
+import { ApiResponse } from "../utils/ApiResponse.js";
 
 const registerProgram = asyncHandler(async (req, res, next) => {
     const {heading, description, duration, price, keyword, skill} =req.body;
@@ -79,21 +81,29 @@ const addUser = asyncHandler(async (req, res, next) => {
 })
 
 const programbyId = asyncHandler(async (req, res, next) => {
-    const program_id=req.body;
+    const {id} = req.body;
+    console.log(id);
+    if(!id){
+        return new ApiError(401, "Program id is required");
+    }
+    if(mongoose.Types.ObjectId.isValid(id)){
+        const Program= await program.findById(id);
+        if(!Program){
+            return res.status(404).json( new ApiResponse(404, "Program not found"));
+        }
+        else{
+            return res 
+            .status(200)
+            .json(new ApiResponse(200, Program, "Program fetched successfully"));
 
-    if(!program_id){
-        throw new ApiError(401, "Program id is required");
+        }
+    
+    }
+    else{
+        return res.status(404).json( new ApiResponse(404,"objectid is not valid"));
     }
 
-    const Program= await program.findById(program_id);
-
-    if(!Program){
-        throw new ApiError(404, "Program not found");
-    }
-
-    return res 
-    .status(200)
-    .json(new ApiResponse(200, Program, "Program fetched successfully"));
+    
 })
 
 const allprograms = asyncHandler(async (req, res, next) => {
