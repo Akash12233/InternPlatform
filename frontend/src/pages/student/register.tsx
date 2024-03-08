@@ -14,6 +14,7 @@ type Inputs = {
     password: string;
 }
 const Register: React.FC = () => {
+     document.title = "Register";
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
     const [file, setFile] = useState<Blob>({} as Blob);

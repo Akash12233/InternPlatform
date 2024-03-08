@@ -66,7 +66,7 @@ const CardItem: React.FC<Props> = ({id,image, title, description, duration, skil
       </div>
     </CardBody>
     <CardFooter className="pt-3"  placeholder={undefined}>
-      <Link to={`/programs/${id}`} >
+      <Link to={`/programs/${id}`} reloadDocument >
       <Button size="lg" fullWidth={true} className='text-[#eee49d]'  placeholder={undefined}>
         Apply Now
       </Button>

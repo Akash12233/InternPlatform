@@ -3,6 +3,7 @@ import { logo } from '../assets'
 import { Link } from 'react-router-dom'
 
 const Error: React.FC = () => {
+   document.title = "404 Error";
   return (
     <>
     <nav className='w-full fixed top-0 flex justify-center bg-black ' >

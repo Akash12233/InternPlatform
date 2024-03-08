@@ -8,7 +8,7 @@ const Navbar = () => {
   return (
     <nav className="w-full sticky top-0 z-50 flex border-b-2 gap-4 justify-between items-center bg-white backdrop-blur-sm opacity-95 border-gray-200 px-2 sm:px-4 py-2.5 rounded" >
         <div className="w-1/3" >
-            <Link to={"/"} > <img src={logo} className="h-20 w-auto mr-3  sm:h-28" alt="logo" /></Link>
+            <Link to={"/"} reloadDocument > <img src={logo} className="h-20 w-auto mr-3  sm:h-28" alt="logo" /></Link>
             
         </div>
         <div className=" w-1/3 flex flex-col justify-center items-center  font-semibold rounded-full " >
@@ -52,9 +52,9 @@ const Navbar = () => {
                         </svg>
                     </button>
                 </li>
-                <li className="hover:bg-black hover:text-[#eee49d] px-5 py-2 rounded transition cursor-pointer duration-300 ease-in-out" ><Link to="/"> Home</Link></li>
-                <li className="hover:bg-black hover:text-[#eee49d] px-5 py-2 rounded transition cursor-pointer duration-300 ease-in-out" ><Link to="/about">About</Link></li>
-                <li className="hover:bg-black hover:text-[#eee49d] px-5 py-2 rounded transition cursor-pointer duration-300 ease-in-out" ><Link to="/programs"> Programs</Link></li>
+                <li className="hover:bg-black hover:text-[#eee49d] px-5 py-2 rounded transition cursor-pointer duration-300 ease-in-out" ><Link to="/" reloadDocument> Home</Link></li>
+                <li className="hover:bg-black hover:text-[#eee49d] px-5 py-2 rounded transition cursor-pointer duration-300 ease-in-out" ><Link to="/about" reloadDocument>About</Link></li>
+                <li className="hover:bg-black hover:text-[#eee49d] px-5 py-2 rounded transition cursor-pointer duration-300 ease-in-out" ><Link to="/programs" reloadDocument> Programs</Link></li>
                 </ul>
             {open && (
                 <ul className="absolute top-20 bg-white  flex w-full p-5 flex-col md:flex-row justify-between text-slate-800 " >
@@ -81,9 +81,9 @@ const Navbar = () => {
                         </svg>
                     </button>
                 </li>
-                <li className="hover:bg-black hover:text-[#eee49d] px-5 py-2 rounded transition cursor-pointer duration-300 ease-in-out" onClick={() => setOpen(!open)} ><Link to="/"> Home</Link></li>
-                <li className="hover:bg-black hover:text-[#eee49d] px-5 py-2 rounded transition cursor-pointer duration-300 ease-in-out"onClick={() => setOpen(!open)} ><Link to="/about">About</Link></li>
-                <li className="hover:bg-black hover:text-[#eee49d] px-5 py-2 rounded transition cursor-pointer duration-300 ease-in-out" onClick={() => setOpen(!open)}><Link to="/programs"> Programs</Link></li>
+                <li className="hover:bg-black hover:text-[#eee49d] px-5 py-2 rounded transition cursor-pointer duration-300 ease-in-out" onClick={() => setOpen(!open)} ><Link to="/" reloadDocument> Home</Link></li>
+                <li className="hover:bg-black hover:text-[#eee49d] px-5 py-2 rounded transition cursor-pointer duration-300 ease-in-out"onClick={() => setOpen(!open)} ><Link to="/about" reloadDocument>About</Link></li>
+                <li className="hover:bg-black hover:text-[#eee49d] px-5 py-2 rounded transition cursor-pointer duration-300 ease-in-out" onClick={() => setOpen(!open)}><Link to="/programs" reloadDocument> Programs</Link></li>
                 </ul>
             )}
             
@@ -113,7 +113,7 @@ const Navbar = () => {
                         </svg>
                     </button>
             </div>
-            <Link to="/login" className="bg-black md:w-1/3 w-full text-center text-[#eee49d] py-2 px-4 rounded font-semibold ">Login</Link>
+            <Link to="/login" reloadDocument className="bg-black md:w-1/3 w-full text-center text-[#eee49d] py-2 px-4 rounded font-semibold ">Login</Link>
         </div>
     </nav>
   )

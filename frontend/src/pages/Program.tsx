@@ -11,6 +11,7 @@ interface item{
     skills: string
 }
 const Program: React.FC = () => {
+  document.title = "Programs";
   return (
     <div className='flex flex-col items-center justify-center ' >
       <h1 className='text-3xl font-semibold' >Our All Programs</h1> 

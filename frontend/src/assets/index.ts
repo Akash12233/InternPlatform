@@ -11,5 +11,6 @@ import whoCanJoin from "./whocanjoin.jpg";
 import abhishek from "./abhishek.jpg";
 import akash from "./akash.png";
 import uploadArea from "./upload_area.svg";
-import banner from "./banner.jpg"
-export { logo, logoBlack, logoWhite, logoColor, intern, company1, company2, company3, company4, whoCanJoin,akash, abhishek, uploadArea, banner };
+import banner from "./banner.jpg";
+import aniket from "./aniket.jpg";
+export { logo, logoBlack, logoWhite, logoColor, intern, company1, company2, company3, company4, whoCanJoin,akash,aniket ,abhishek, uploadArea, banner };

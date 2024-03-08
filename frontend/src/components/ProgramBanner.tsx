@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { banner } from '../assets'
+import { Link } from 'react-router-dom';
 
 const ProgramBanner: React.FC<any> = ({programDetails}) => {
     console.log(programDetails);
@@ -25,7 +26,7 @@ const ProgramBanner: React.FC<any> = ({programDetails}) => {
                             <p key={index} className='text-[#eee49d] font-semibold p-2 rounded-md bg-[#eee49d] text-black '>{keyword}</p>
                         ))}
                     </div>
-                   <button className='bg-black text-[#eee49d] py-3 w-1/2 mx-auto rounded-md' >Apply</button>
+                   <Link to={"/apply"} reloadDocument className='bg-black text-[#eee49d] text-center py-3 w-1/2 mx-auto rounded-md' >Apply</Link>
 
                </div>
            </div>
@@ -42,7 +43,7 @@ const ProgramBanner: React.FC<any> = ({programDetails}) => {
                             <p key={index} className='text-[#eee49d] font-semibold p-2 rounded-md bg-[#eee49d] text-black '>{keyword}</p>
                         ))}
                     </div>
-                   <button className='bg-black text-[#eee49d] py-3 w-1/2 mx-auto rounded-md' >Apply Now</button>
+                   <Link to={"/apply"} reloadDocument className='bg-black text-[#eee49d] py-3 w-1/2 mx-auto rounded-md' >Apply Now</Link>
 
                </div>
        </div>

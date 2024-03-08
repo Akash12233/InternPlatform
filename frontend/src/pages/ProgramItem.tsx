@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // import axios from 'axios';
 import React, { useEffect, useState } from 'react'
@@ -34,6 +35,7 @@ const ProgramItem: React.FC = () => {
     const [programDetails, setProgramDetails]  = useState<ProgramDetails | null>(null);
     const [taskDetails, setTaskDetails] = useState<Tasks[] | null>(null);
     console.log(id);
+    document.title = programDetails?.heading || "Program Details";
     // const accessToken= localStorage.getItem("accessToken");
     // const [error, setError] = useState("");
   
@@ -83,7 +85,7 @@ const ProgramItem: React.FC = () => {
         <TasksOverview tasks={taskDetails} />
         <div className='border-t-8 border-[#eee49d] flex flex-col md:flex-row justify-center items-center p-10' >
             <h1 className='text-3xl font-semibold text-black text-center w-1/2  ' >Not the right Internship?</h1>
-            <Link to={"/programs"} className='border-2 md:w-1/4 w-3/4 mx-auto block border-[#eee49d] px-5 py-2 rounded-lg text-black  text-center  hover:bg-[#eee49d]' >Browse Other Internships</Link>
+            <Link to={"/programs"} reloadDocument  className='border-2 md:w-1/4 w-3/4 mx-auto block border-[#eee49d] px-5 py-2 rounded-lg text-black  text-center  hover:bg-[#eee49d]' >Browse Other Internships</Link>
         </div>
     </>
   )

@@ -11,6 +11,7 @@ type Inputs = {
     password: string;
 }
 const Login: React.FC = () => {
+    document.title = "Login";
     const {dispatch} = useAuthContext()
     const [error, setError] = useState("");
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
