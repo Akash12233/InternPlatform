@@ -40,7 +40,7 @@ export const AuthContextProvider = (props:any) => {
         const refreshToken = localStorage.getItem('refreshToken')
         const accessToken = localStorage.getItem("accessToken")
         if (user) {
-            dispatch({ type: 'LOGIN', payload: JSON.parse(user).user,refreshToken: refreshToken, accessToken: accessToken })
+            dispatch({ type: 'LOGIN', payload: JSON.parse(user),refreshToken: refreshToken, accessToken: accessToken })
         }
         else {
             dispatch({ type: 'LOGOUT' })

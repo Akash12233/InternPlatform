@@ -4,6 +4,7 @@ import CardItem from './Card'
 import Carousel from 'react-material-ui-carousel';
 import smapleInternships from "../pages/intern";
 interface item{
+  _id: number,
   image: string,
     title: string,
     description: string,
@@ -19,13 +20,13 @@ const PopularPrograms: React.FC = () => {
         <div className='flex w-full items-center' >
           <Carousel className='w-full md:hidden ' >
             {smapleInternships.map((item: item) => (
-              <CardItem image={item.image} title={item.title} description={item.description} duration={item.duration} skills={item.skills} />
+              <CardItem image={item.image} title={item.title} description={item.description} duration={item.duration} skills={item.skills} id={item._id} />
             ))}
               
           </Carousel>
           <div className='hidden md:flex gap-2 w-full mx-auto items-center jsutify-center ' >
           {smapleInternships.map((item: item) => (
-              <CardItem image={item.image} title={item.title} description={item.description} duration={item.duration} skills={item.skills} />
+              <CardItem image={item.image} title={item.title} description={item.description} duration={item.duration} skills={item.skills} id={item._id} />
             ))}
           </div>
           

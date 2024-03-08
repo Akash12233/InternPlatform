@@ -13,6 +13,7 @@ import {
     Chip,
   } from "@material-tailwind/react";
 import { Link } from 'react-router-dom';
+import Img from './Img';
 
   type Props={
     id: number,
@@ -27,11 +28,8 @@ const CardItem: React.FC<Props> = ({id,image, title, description, duration, skil
   return (
     <Card className="w-full max-w-[26rem] h-96 shadow-lg"  placeholder={undefined}>
     <CardHeader floated={false} color="blue-gray"  placeholder={undefined}>
-      <img
-        src={image}
-        alt={title}
-        className='object-cover w-full h-full'
-      />
+    <Img src={image} alt={title} className='w-full object-cover h-full ' />
+     
       <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
       
     </CardHeader>
