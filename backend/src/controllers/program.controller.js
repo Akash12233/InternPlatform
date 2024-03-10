@@ -5,10 +5,10 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import mongoose from "mongoose";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-const registerProgram = asyncHandler(async (req, res, next) => {
-    const {heading, description, duration, price, keyword, skill} =req.body;
+const addProgram = asyncHandler(async (req, res, next) => {
+    const {heading,shortDescription ,description, duration, price, keyword, skill} =req.body;
 
-    if([heading, description, duration, price, keyword, skill].some((field) => field?.trim() === "")
+    if([heading,shortDescription ,description, duration, price, keyword, skill].some((field) => field?.trim() === "")
     ){
         throw new ApiError (409,"All fields are required");
     }
@@ -38,6 +38,7 @@ const registerProgram = asyncHandler(async (req, res, next) => {
 
     const newProgram = await program.create({
         heading,
+        shortDescription,
         description, 
         duration, 
         price, 
@@ -58,27 +59,7 @@ const registerProgram = asyncHandler(async (req, res, next) => {
 
 })
 
-const addUser = asyncHandler(async (req, res, next) => {
-    const {user_id,program_id}= req.body;
 
-    if(!user_id || !program_id){
-        throw new ApiError(401, "User id and Program id is required");
-    }
-
-    const Program = await program.findById(program_id);
-
-    if(!Program){
-        throw new ApiError(404, "Program not found");
-    }
-
-    Program.useropt.push(user_id);
-
-    const updatedProgram= await Program.save();
-
-    return res
-    .status(200)
-    .json(new ApiResponse(200, updatedProgram, "Program updated successfully"));
-})
 
 const programbyId = asyncHandler(async (req, res, next) => {
     const {id} = req.body;
@@ -135,27 +116,10 @@ const deleteprogram = asyncHandler(async (req, res, next) => {
 
 })
 
-const removeUser = asyncHandler(async (req, res, next) => {
-    const {user_id, program_id}= req.body;
 
-    if(!user_id || !program_id){
-        throw new ApiError(401, "User id and Program id is required");
-    }
-
-    const Program= await program.findById(program_id);
-
-    Program.useropt.pull(user_id);
-
-    const updatedProgram= await Program.save();
-
-    return res 
-    .status(200)
-    .json(new ApiResponse(200, updatedProgram, "Program updated successfully"));
-
-});
 
 const updatedProgram= asyncHandler(async (req, res, next) => {
-    const {program_id, heading, description, duration, price, keyword, skill} = req.body;
+    const {program_id, heading,shortDescription ,description, duration, price, keyword, skill} = req.body;
     const keywords=keyword.split(",");
     const skills=skill.split(",");
 
@@ -163,6 +127,7 @@ const updatedProgram= asyncHandler(async (req, res, next) => {
         program_id,
         {
             heading,
+            shortDescription,
             description,
             duration,
             price,
@@ -184,76 +149,81 @@ const updatedProgram= asyncHandler(async (req, res, next) => {
 
 const getprogramdone= asyncHandler(async (req, res, next) => {
     const program_id= req.body;
-
-    const programdone = await program.aggregate([
-        {
-            $match:{
-                _id: mongoose.Types.ObjectId(program_id)
-            }
-        },
-        {
-            $lookup:{
-                from: "useractions",
-                localField: "_id",
-                foreignField: "program_id",
-                as: "useractions"
-            }
-        },
-        {
-            $addFields: {
-                allcontent: {
-                    $size: {$filter: {
-                            input: "$useractions",
-                            as: "useraction",
-                            cond: {
-                                 $eq: ["$$useraction.user_id", user_id] 
+    if(mongoose.Types.ObjectId.isValid(program_id)){
+        const programdone = await program.aggregate([
+            {
+                $match:{
+                    _id: mongoose.Types.ObjectId(program_id)
+                }
+            },
+            {
+                $lookup:{
+                    from: "useractions",
+                    localField: "_id",
+                    foreignField: "program_id",
+                    as: "useractions"
+                }
+            },
+            {
+                $addFields: {
+                    allcontent: {
+                        $size: {$filter: {
+                                input: "$useractions",
+                                as: "useraction",
+                                cond: {
+                                     $eq: ["$$useraction.user_id", user_id] 
+                                }
+                            }
+                        }
+                    },
+                    allcontentVerified: {
+                        $size: {
+                            $filter: {
+                              input: "$subtasks",
+                              as: "useraction",
+                              cond: {
+                                $and: [
+                                  { $eq: ["$$useraction.verified", true] }, // First condition
+                                  { $eq: ["$$useraction.user_id", user_id] }
+                                ]
+                              }
                             }
                         }
                     }
-                },
-                allcontentVerified: {
-                    $size: {
-                        $filter: {
-                          input: "$subtasks",
-                          as: "useraction",
-                          cond: {
-                            $and: [
-                              { $eq: ["$$useraction.verified", true] }, // First condition
-                              { $eq: ["$$useraction.user_id", user_id] }
-                            ]
-                          }
-                        }
-                    }
+                }
+            },
+            {
+                $project:{
+                    _id:1,
+                    heading:1,
+                    allcontent:1,
+                    allcontentVerified:1,
                 }
             }
-        },
-        {
-            $project:{
-                _id:1,
-                heading:1,
-                allcontent:1,
-                allcontentVerified:1,
-            }
+        ])
+    
+        if(!programdone?.length){
+            throw new ApiError(404, "Program not found");
         }
-    ])
-
-    if(!programdone?.length){
-        throw new ApiError(404, "Program not found");
+        return res 
+        .status(200)
+        .json(new ApiResponse(200, programdone[0], "Program done successfully"));
     }
-    return res 
-    .status(200)
-    .json(new ApiResponse(200, programdone[0], "Program done successfully"));
+    else{
+        return res.status(404).json( new ApiResponse(404,"objectid is not valid"));
+    }
+   
 
 })
 
 
 export {
-    registerProgram,
-    addUser,
+    addProgram,
+
     programbyId,
     allprograms,
     deleteprogram,
-    removeUser,
+  
     updatedProgram,
     getprogramdone
 }

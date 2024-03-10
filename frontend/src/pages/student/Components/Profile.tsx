@@ -11,9 +11,10 @@ const Profile: React.FC = () => {
         
         
         </div>
-        <div className='w-1/2' >
+        <div className='w-1/2 border-l-2 pl-1 border-black' >
             <h1 className='text-7xl font-semibold m-2' > {user?.username}</h1>
              <p className='text-xl m-2 font-medium' >{user?.firstname} {user?.lastname}</p>
+             <p className='text-xl m-2 font-medium' >{user?.email}</p>
         </div>
     </section>
   )

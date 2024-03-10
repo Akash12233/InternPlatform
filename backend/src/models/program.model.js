@@ -4,6 +4,10 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 const programSchema = new mongoose.Schema({
     heading: {
         type: String,
+        required: true 
+    },
+    shortDescription: {
+        type: String,
         required: true
     },
     description: {
@@ -21,10 +25,7 @@ const programSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    useropt:[{
-        type: mongoose.Schema.Types.ObjectId,
-        required:true,
-    }], 
+   
     keywords:[
         {
             type:String,

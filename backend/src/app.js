@@ -30,6 +30,8 @@ app.use(cookieParser())
 import Userrouter from "./routes/user.route.js";
 app.use("/api/v1/user", Userrouter);
 
+import userProgramsrouter from "./routes/userPrograms.route.js";
+app.use("api/v1/userPrograms", userProgramsrouter);
 
 import programrouter from "./routes/program.route.js";
 app.use("/api/v1/program", programrouter);

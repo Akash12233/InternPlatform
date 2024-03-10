@@ -1,3 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 
 import Choose from "../components/Choose"
 import Contact from "../components/Contact"
@@ -9,7 +13,11 @@ import Testimonials from "../components/Testimonials"
 
 
 
+
 const Home = () => {
+  
+  
+ 
   return (
     <div>
         <Hero/>
