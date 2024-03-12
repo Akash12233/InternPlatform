@@ -6,22 +6,24 @@ import mongoose from "mongoose";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 const addProgram = asyncHandler(async (req, res, next) => {
-    const {heading,shortDescription ,description, duration, price, keyword, skill} =req.body;
+    const {heading,shortDescription ,description, duration, price, keywords, skills} =req.body;
 
-    if([heading,shortDescription ,description, duration, price, keyword, skill].some((field) => field?.trim() === "")
+    if([heading,shortDescription ,description, duration, price, keywords, skills].some((field) => field?.trim() === "")
     ){
-        throw new ApiError (409,"All fields are required");
+        throw new ApiError (401,"All fields are required");
     }
 
     const existedProgram = await program.findOne({
-        $or: {heading}
+        $or: [
+            {heading: heading}
+        ]
     });
 
     if(existedProgram){
-        throw new ApiError(401, "Program already exists");
+        return res.status(401).json( new ApiError(401,null ,"Program already exists"));
     }
 
-    const imageLocalPath = req.file?.image[0]?.path;
+    const imageLocalPath = req.files?.image[0]?.path;
 
     if(!imageLocalPath){
         throw new ApiError(400, "Profile picture is required");
@@ -29,28 +31,28 @@ const addProgram = asyncHandler(async (req, res, next) => {
 
     const image= await uploadOnCloudinary(imageLocalPath);
 
-    if(!avatar){
-        throw new ApiError(400, "Something went wrong");
+    if(!image){
+        return res.status(400).json( new ApiError(400, null,"Something went wrong"));
     }
 
-    const keywords= keyword.split(",");
-    const skills= skill.split(",");
-
+    const keyword= keywords.split(",");
+    const skill= skills.split(",");
+console.log(keyword,skill);
     const newProgram = await program.create({
         heading,
         shortDescription,
         description, 
         duration, 
         price, 
-        keywords, 
-        skills,
+        keywords: keyword, 
+        skills: skill,
         image:image.secure_url
     })
 
     const createdprogram= await program.findById(newProgram._id);
 
     if(!createdprogram){
-        throw new ApiError(400, "Error on creating Program");
+        return res.status(400).json( new ApiResponse(400,null, "Error on creating Program"));
     }
 
     return res
@@ -96,7 +98,7 @@ const allprograms = asyncHandler(async (req, res, next) => {
 })
 
 const deleteprogram = asyncHandler(async (req, res, next) => {
-    const program_id= req.body;
+    const {program_id}= req.body;
 
     if(!program_id){
         throw new ApiError(401, "Program id is required");

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import {addProgramUser, getProgramsByProgram, getProgramsByUser} from "../controllers/userPrograms.controller.js";
 import {Router} from "express";
 import {verifyjwt} from "../middlewares/userauth.middleware.js";
 

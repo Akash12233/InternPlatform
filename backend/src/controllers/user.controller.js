@@ -32,7 +32,7 @@ const registerUser =asyncHandler(async (req, res)=>{
 // console.log(req.files);
     const {firstname, lastname, username, email, password} = req.body;
 
-    
+     
     
     const existedUser = await user.findOne({
         $or: [{email}, {username}]

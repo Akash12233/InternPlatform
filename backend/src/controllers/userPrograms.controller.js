@@ -11,7 +11,8 @@ const addProgramUser = asyncHandler(async (req, res, next) => {
         $and: {program_id, user_id}
     });
     if(existedProgram){
-        throw new ApiError(401, "You have already Enrolled in this program");
+        return res.status(401).json(new ApiResponse(401, null, "Program already enrolled"));
+    
     }
     else{
         if(mongoose.Types.ObjectId.isValid(user_id) && mongoose.Types.ObjectId.isValid(program_id)){
@@ -23,7 +24,8 @@ const addProgramUser = asyncHandler(async (req, res, next) => {
                 return res.status(200).json(new ApiResponse(200, newProgram, "Program enrolled successfully"));
             }
             else{
-                throw new ApiError(401, "User id and Program id is required");
+                return res.status(401).json(new ApiResponse(401, null, "User id and Program id is required"));
+               
             }
             
         }
@@ -41,7 +43,8 @@ const addProgramUser = asyncHandler(async (req, res, next) => {
 
     }
     else{
-        throw new ApiError(401, "User id is required");
+        return res.status(401).json(new ApiResponse(401, null, "User id is required"));
+  
     }
 })
 
@@ -55,7 +58,8 @@ const addProgramUser = asyncHandler(async (req, res, next) => {
         return res.status(200).json(new ApiResponse(200, programs, "Programs fetched successfully"));
     }
     else{
-        throw new ApiError(401, "Program id is required");
+        return res.status(401).json(new ApiResponse(401, null, "Program id is required"));
+   
     }
 })
 
@@ -68,7 +72,8 @@ const addProgramUser = asyncHandler(async (req, res, next) => {
         return res.status(200).json(new ApiResponse(200, result, "Program deleted successfully"));
     }
     else{
-        throw new ApiError(401, "User id and Program id is required");
+        return res.status(401).json(new ApiResponse(401, null, "User id and Program id is required"));
+        
     }
 })
 

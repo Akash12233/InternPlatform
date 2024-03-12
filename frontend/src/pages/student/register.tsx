@@ -31,7 +31,7 @@ const Register: React.FC = () => {
         formData.append('lastname', data.lastname);
         formData.append('username', data.username);
         formData.append('email', data.email);
-        formData.append('password', data.password);
+        formData.append('password', data.password); 
 
         console.log(data);
         console.log(formData.get('avatar'));

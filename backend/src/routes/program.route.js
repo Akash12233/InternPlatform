@@ -14,7 +14,7 @@ import { upload } from "../middlewares/multer.middleware.js";
 
 const programrouter= Router();
 
-programrouter.route("/register").post(
+programrouter.route("/addPrograms").post(
     upload.fields([
         {
             name: "image",
@@ -26,8 +26,8 @@ programrouter.route("/register").post(
 
 
 programrouter.route("/programbyid").post(verifyjwt, programbyId)
-programrouter.route("/allprograms").get(verifyjwt, allprograms)
-programrouter.route("/deleteprogram").post(verifyjwt, deleteprogram)
+programrouter.route("/allprograms").get( allprograms)
+programrouter.route("/deleteprogram").delete( deleteprogram)
 
 programrouter.route("/updateprogram").patch(verifyjwt, updatedProgram)
 programrouter.route("/getprogramdone").get(verifyjwt, getprogramdone)
