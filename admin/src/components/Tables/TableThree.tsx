@@ -14,7 +14,7 @@ const TableThree : React.FC<any> = ({packageData,setSuccess,setError,setPackageD
       });
       console.log(res);
       setSuccess(res.data.message);
-      setPackageData(packageData.filter((item: any) => item._id !== id))
+      setPackageData(packageData.filter((item: any) => item.id !== id))
     } catch (error:any) {
       console.log(error);
       setError(error.response.data.message);
@@ -114,7 +114,7 @@ const TableThree : React.FC<any> = ({packageData,setSuccess,setError,setPackageD
                     </svg>
 
                     </button>
-                    <button className="hover:text-primary" onClick={() => deleteHandler(packageItem._id)}>
+                    <button className="hover:text-primary" onClick={() => deleteHandler(packageItem.id)}>
                       <svg
                         className="fill-current"
                         width="18"

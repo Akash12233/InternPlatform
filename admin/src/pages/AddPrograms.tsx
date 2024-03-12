@@ -11,6 +11,7 @@ import { escapeHtml } from './encode_decode';
 import axios from 'axios';
 
 import TableThree from '../components/Tables/TableThree';
+import Loader from '../common/Loader';
 
 interface Program{
   heading: string,
@@ -43,6 +44,7 @@ const AddPrograms: React.FC = () => {
     const [success, setSuccess] = useState<string>("");
     const [programData, setProgramData] = useState<Program[]>([]);
     const isInitialFetchRef = useRef(true);
+    const [loading,setLoading] = useState<Boolean>(false);
     
     
     const handleChange: EventHandler<any> = (e) =>{
@@ -52,6 +54,7 @@ const AddPrograms: React.FC = () => {
     }
     
     const onSubmit: SubmitHandler<Inputs> = async(data) => {
+      setLoading(true)
      if(value.length === 0){
       setDescriptionError(true)
       return; 
@@ -86,10 +89,11 @@ const AddPrograms: React.FC = () => {
           setImage("");
           programData.push(addProgram.data.data)
         }
+        setLoading(false)
       }catch(error:any){
         console.log(error);
         setError(error?.response.data.errors);
-        
+        setLoading(false)
       }
     }
     useEffect(()=>{
@@ -260,8 +264,11 @@ const AddPrograms: React.FC = () => {
 
                
 
-                <button type='submit' className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-                  Add Program 
+                <button type='submit' className={`flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90 ${loading && "cursor-not-allowed"}` }>
+                  {loading?
+                  (<Loader />):("Add Program")}
+                  
+               
                 </button>
               </div>
             </form>

@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const taskSchema = new mongoose.Schema({
+    id:{
+        type:Number,
+        required: true,
+    },
     heading: {
         type: String,
         required: true
@@ -10,7 +14,7 @@ const taskSchema = new mongoose.Schema({
         required: true
     }, 
     program_id:{
-            type:mongoose.Schema.Types.ObjectId,
+            type:[Number],
             ref:"program"
     },
     skils:[

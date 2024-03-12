@@ -18,8 +18,18 @@ const addTask = asyncHandler(async (req, res, next) => {
     }
 
     const skills= skill.split(",");
-
+    let tasks = await task.find({});
+    let id;
+    if(tasks.length>0){
+        let last_task = tasks.slice(-1);
+        let last = last_task[0];
+        id = last.id + 1
+    }
+    else{
+        id = 1
+    }
     const newTask = await task.create({
+        id,
         heading,
         description, 
         program_id,

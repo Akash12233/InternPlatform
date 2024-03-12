@@ -34,11 +34,24 @@ const addProgram = asyncHandler(async (req, res, next) => {
     if(!image){
         return res.status(400).json( new ApiError(400, null,"Something went wrong"));
     }
+    let programs = await program.find({});
+    let id;
+    if(programs.length>0){
+        let last_program = programs.slice(-1);
+        let last = last_program[0];
+        id = last.id + 1
+    }
+    else{
+        id = 1;
+    }
 
-    const keyword= keywords.split(",");
-    const skill= skills.split(",");
-console.log(keyword,skill);
+    let keyword= keywords.split(",");
+    keyword = keyword.filter((el) => el !== "");
+    let skill= skills.split(",");
+    skill = skill.filter((el) => el !== "");
+ console.log(keyword,skill);
     const newProgram = await program.create({
+        id,
         heading,
         shortDescription,
         description, 
@@ -69,7 +82,7 @@ const programbyId = asyncHandler(async (req, res, next) => {
     if(!id){
         return new ApiError(401, "Program id is required");
     }
-    if(mongoose.Types.ObjectId.isValid(id)){
+
         const Program= await program.findById(id);
         if(!Program){
             return res.status(404).json( new ApiResponse(404, "Program not found"));
@@ -81,10 +94,7 @@ const programbyId = asyncHandler(async (req, res, next) => {
 
         }
     
-    }
-    else{
-        return res.status(404).json( new ApiResponse(404,"objectid is not valid"));
-    }
+   
 
     
 })
@@ -105,7 +115,7 @@ const deleteprogram = asyncHandler(async (req, res, next) => {
     }
 
     const result = await program.deleteOne({
-        _id: program_id,
+        id: program_id,
       });
     
     if (result.deletedCount === 0) {
@@ -126,7 +136,7 @@ const updatedProgram= asyncHandler(async (req, res, next) => {
     const skills=skill.split(",");
 
     const updatedprogram = await program.findByIdAndUpdate(
-        program_id,
+         program_id,
         {
             heading,
             shortDescription,

@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 const programSchema = new mongoose.Schema({
+    id:{
+        type: Number,
+        required: true
+    },
     heading: {
         type: String,
         required: true 
