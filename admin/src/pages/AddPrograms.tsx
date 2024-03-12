@@ -9,7 +9,7 @@ import DefaultLayout from '../layout/DefaultLayout'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { escapeHtml } from './encode_decode';
 import axios from 'axios';
-import Alerts from './UiElements/Alerts';
+
 import TableThree from '../components/Tables/TableThree';
 
 interface Program{
