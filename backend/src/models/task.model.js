@@ -14,13 +14,14 @@ const taskSchema = new mongoose.Schema({
         required: true
     }, 
     program_id:{
-            type:[Number],
-            ref:"program"
+            type:Number,
+            required: true
+            
     },
-    skils:[
+    skills:[
         {
             type:String,
-            default:true
+            required:true
         }
     ]
 },
