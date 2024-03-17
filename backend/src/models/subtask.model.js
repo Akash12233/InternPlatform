@@ -1,20 +1,24 @@
 import mongoose from "mongoose";
 
 const subtaskSchema = new mongoose.Schema({
+    id: {
+        type: Number,
+        required: true
+    },
     heading: {
         type: String,
         required: true
     },
     description: {
         type: String,
-        required: true
+        required: true 
     },
     solutiongiven: {
         type: String,
         required: true
     },
     task_id:{
-        type: mongoose.Schema.Types.ObjectId,
+        type: Number,
         ref: "task"
     }  
 }, { 

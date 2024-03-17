@@ -80,10 +80,16 @@ const allTasks = asyncHandler(async (req, res, next) => {
 })
 
 const allTaskbyprogramId= asyncHandler(async (req, res, next) => {
-    const program_id= req.body;
+  console.log(req.body);
+    const {program_id}= req.body;
+    console.log(program_id);
     const existedtask = await task.findOne({
-        $or: {program_id}
-    });
+        $or: [
+            {
+                program_id:program_id
+            }
+        ]
+    }); 
 
     if(!existedtask){
         throw new ApiError(404, "Task not found");
@@ -97,7 +103,7 @@ const allTaskbyprogramId= asyncHandler(async (req, res, next) => {
 const deleteTask = asyncHandler(async (req, res, next) => {
     const {Task_id}= req.body;
 
-    if(!Task_id){
+    if(!Task_id){ 
         return res.status(401).json( new ApiError(401,null ,"Task id is required"));
     }
     console.log(Task_id);

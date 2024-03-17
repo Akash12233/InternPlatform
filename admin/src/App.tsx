@@ -12,11 +12,12 @@ import ECommerce from './pages/Dashboard/ECommerce';
 
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
-import Tables from './pages/Tables';
+
 import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
 import AddPrograms from './pages/AddPrograms';
 import Tasks from './pages/Tasks';
+import SubTask from './pages/SubTask';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -81,11 +82,12 @@ function App() {
           }
         />
         <Route
-          path="/tables"
+          path="/subtasks"
+          
           element={
             <>
-              <PageTitle title="Tables | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Tables />
+              <PageTitle title="Add Subtasks" />
+              <SubTask />
             </>
           }
         />

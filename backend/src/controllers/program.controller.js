@@ -159,7 +159,7 @@ const updatedProgram= asyncHandler(async (req, res, next) => {
     .json(new ApiResponse(200, updatedprogram, "Program updated successfully"));
 })
 
-const getprogramdone= asyncHandler(async (req, res, next) => {
+const getprogramdone = asyncHandler(async (req, res, next) => {
     const program_id= req.body;
     if(mongoose.Types.ObjectId.isValid(program_id)){
         const programdone = await program.aggregate([

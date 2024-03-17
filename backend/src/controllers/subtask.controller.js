@@ -4,7 +4,7 @@ import { ApiError } from "../utils/ApiError.js";
 import {ApiResponse} from "../utils/ApiResponse.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
-const addsubTask = asyncHandler(async (req, res, next) => {
+const addsubTask = asyncHandler(async (req, res, next) => { 
     const {heading, description, task_id} = req.body;
     if([heading, description, task_id].some((field) => field?.trim() === "")){
         throw new ApiError(401, "All fields are required");
@@ -22,13 +22,24 @@ const addsubTask = asyncHandler(async (req, res, next) => {
     if(!solutionLocalPath){
         throw new ApiError(400, "Profile picture is required");
     }
-
+ 
     const solution= await uploadOnCloudinary(solutionLocalPath);
 
     if(!avatar){
         throw new ApiError(400, "Something went wrong");
+    } 
+    let subtasks = await subtask.find({});
+    let id;
+    if(subtasks.length>0){
+        let last_task = subtasks.slice(-1);
+        let last = last_task[0];
+        id = last.id + 1
+    }
+    else{
+        id = 1
     }
     const newsubTask = await subtask.create({
+        id,
         heading,
         description, 
         task_id,
