@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import ReactQuill from 'react-quill';
 import Loader from '../common/Loader';
@@ -8,6 +8,8 @@ import DefaultLayout from '../layout/DefaultLayout';
 import { escapeHtml } from './encode_decode';
 import useProgramContext from '../hooks/useProgramContext';
 import useTaskContext from '../hooks/useTaskContext';
+import ErrorMessage from '../common/Loader/ErrorMessage';
+import SuccessMessage from '../common/Loader/SuccessMessage';
 
 interface Program {
     heading: string,
@@ -37,8 +39,8 @@ const SubTask: React.FC = () => {
     const {task: taskData,dispatch: dispatchTask} = useTaskContext();
     const [error, setError] = useState<string>("");
     const [success, setSuccess] = useState<string>("");
-
-   
+    const [file, setFile] = useState<Blob>({} as Blob);
+   const [subTasks, setSubTasks] = useState<any[]>([]);
 
     const [loading, setLoading] = useState<Boolean>(false);
 
@@ -63,14 +65,15 @@ const SubTask: React.FC = () => {
     const deleteHandler = async (id: number) => {
         console.log(id);
         try {
-            const res = await axios.delete(`http://localhost:8000/api/v1/task/deletetask`, {
+            const res = await axios.delete(`api/v1/subtask/deletesubtask`, {
                 data: {
-                    Task_id: id,
+                    subTask_id: id,
                 }
             });
             console.log(res);
             setSuccess(res.data.message);
-            dispatchTask({type: "UPDATE_TASK",payload: taskData.filter((item: any) => item.id !== id)})
+            setSubTasks(subTasks.filter((item: any) => item.id !== id))
+           
         } catch (error: any) {
             console.log(error);
             setError(error.response.data.message);
@@ -89,11 +92,12 @@ const SubTask: React.FC = () => {
 
         }
         const formData = new FormData();
-
+        formData.append("solution", file);
         formData.append("heading", data.heading);
      
 
         formData.append("description", escapeHtml(value));
+        formData.append("task_id", `${data.task_id}`);
       
      
         
@@ -102,18 +106,17 @@ const SubTask: React.FC = () => {
 
 
         try {
-            const addtasks = await axios.post("http://localhost:8000/api/v1/task/addtask", {
-                heading: data.heading,
-                program_id: data.program_id,
-                description: escapeHtml(value),
-               
+            const addtasks = await axios.post("api/v1/subtask/addsubtask", formData,{
+                headers:{
+                    "Content-Type":"multipart/form-data",
+                }
             })
             console.log(addtasks);
             if (addtasks.status == 200) {
                 setSuccess("Task added successfully");
                 setError("");
                 reset()
-                dispatchTask({type: "UPDATE_TASK",payload: [...taskData,addtasks.data.data]})
+                
                
             }
             setLoading(false)
@@ -128,6 +131,17 @@ const SubTask: React.FC = () => {
    
 // console.log(register("program_id"));
 // console.log(getValues("program_id"));
+useEffect(()    => {
+    const allSubTasks = async() =>{
+        const res = await axios.get("api/v1/subtask/allsubtasks")
+        // console.log(res);
+        setSubTasks(res.data.data)
+    }
+    allSubTasks()
+},[])
+
+console.log(subTasks);
+
 
 
 
@@ -138,30 +152,8 @@ const SubTask: React.FC = () => {
 
             <div className=" gap-9 grid sm:grid-cols-1">
                 <div className="flex flex-col gap-9">
-                    {error && (
-                        <div className="bg-red-100 z-50 top-[15%] right-5 fixed border border-red-400 text-red-700 px-4 py-3 rounded " role="alert">
-                            <div className=' flex justify-between gap-2 items-center'>
-                                <strong className="font-bold">Error!</strong>
-                                <span className="block sm:inline">{error}</span>
-                                <span className=" top-0 bottom-0 right-0 px-4 py-3">
-                                    <svg className="fill-current h-4 w-4 text-red-500" onClick={() => setError("")} role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
-                                </span>
-
-                            </div>
-                        </div>
-                    )}
-                    {success && (
-                        <div className="bg-red-100 z-50   top-[15%] right-2 fixed border border-green-400 text-green-700 px-4 py-3 rounded " role="alert">
-                            <div className=' flex justify-between gap-2 items-center' >
-                                <strong className="font-bold">Success!</strong>
-                                <span className="block sm:inline">{success}</span>
-                                <span className=" px-4 py-3">
-                                    <svg className="fill-current h-4 w-4 text-green-500" onClick={() => setSuccess("")} role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
-                                </span>
-
-                            </div>
-                        </div>
-                    )}
+                    <ErrorMessage error={error} setError={setError} />
+                    {success && <SuccessMessage success={success} setSuccess={setSuccess} />}
                     {/* <!-- Contact Form --> */}
                     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                         <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
@@ -171,9 +163,7 @@ const SubTask: React.FC = () => {
                         </div>
                         <form onSubmit={handleSubmit(onSubmit)} >
                             <div className="p-6.5">
-                                <div className="mb-4.5 flex flex-col gap-6 ">
-
-                                </div>
+                                
                                 <div className='mb-4.5 flex flex-col xl:flex-row gap-9 ' >
                                     <div className="w-full xl:w-1/2">
                                         <label className="mb-2.5 block text-black dark:text-white">
@@ -320,7 +310,20 @@ const SubTask: React.FC = () => {
                                     
 
                                 </div>
-
+                                <div className="w-full xl:w-1/2">
+                                        <label className="mb-2.5 block text-black dark:text-white">
+                                            Solution
+                                        </label>
+                                        <input
+                                            type="file"
+                                            onChange={(e: any) => {
+                                                setFile(e.target.files[0]);
+                                            }}
+                                            placeholder="Enter Task Heading"
+                                            className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                        />
+                                        {errors.heading && <p className='text-red-500'>{errors.heading.message}</p>}
+                                    </div>
                                 <div className="mb-4.5">
                                     <label className="mb-2.5 block text-black dark:text-white">
                                         Description <span className="text-meta-1">*</span>
@@ -364,12 +367,12 @@ const SubTask: React.FC = () => {
                                                 Heading
                                             </th>
                                             <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                                                Program 
+                                                Program Heading 
                                             </th>
                                             
                                            
                                             <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                                                Skills
+                                                solution
                                             </th>
                                            
                                             <th className="py-4 px-4 font-medium text-black dark:text-white">
@@ -378,7 +381,7 @@ const SubTask: React.FC = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {programData?.map((packageItem: Program, key: number) => (
+                                        {subTasks?.map((packageItem: any, key: number) => (
                                             <tr key={key}>
                                                 
                                                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -395,15 +398,7 @@ const SubTask: React.FC = () => {
                                                 
                                                 <td className="border-b  border-[#eee] py-5 px-4 dark:border-strokedark">
                                                     <div className="flex flex-wrap gap-2" >
-                                                        {packageItem.skills?.map((skill: any, key: number) => (
-                                                            <p
-                                                                key={key}
-                                                                className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success`}
-                                                            >
-                                                                {skill}
-                                                            </p>
-                                                        ))}
-
+                                                        <a href={`${packageItem.solutiongiven}`} target="_blank">Click Here</a>
                                                     </div>
 
                                                 </td>

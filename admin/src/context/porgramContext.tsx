@@ -48,7 +48,7 @@ export const ProgramContextProvider = (props: any) => {
         }
         else {
             const fetch = async () => {
-                const res = await axios.get('http://localhost:8000/api/v1/program/allPrograms')
+                const res = await axios.get('api/v1/program/allPrograms')
               
                 localStorage.setItem('program', JSON.stringify(res.data.data))
                 dispatch({ type: 'SET_PROGRAM', payload: res.data.data })

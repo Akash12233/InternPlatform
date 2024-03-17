@@ -42,7 +42,7 @@ export const TaskContextProvider = (props: any) => {
         }
         else {
             const fetch = async () => {
-                const res = await axios.get('http://localhost:8000/api/v1/task/allTasks')
+                const res = await axios.get('api/v1/task/allTasks')
               
                 localStorage.setItem('task', JSON.stringify(res.data.data))
                 dispatch({ type: 'SET_TASK', payload: res.data.data })
@@ -51,6 +51,8 @@ export const TaskContextProvider = (props: any) => {
            
         }
     },[])
+    console.log(state);
+    
     return (
         <taskContext.Provider
             value={{
