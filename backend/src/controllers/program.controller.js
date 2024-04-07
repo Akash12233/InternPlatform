@@ -2,6 +2,7 @@ import {ApiError} from "../utils/ApiError.js"
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import program from "../models/program.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 
 const registerProgram = asyncHandler(async (req, res, next) => {
     const {heading, description, duration, price, keyword, skill} =req.body;
@@ -12,14 +13,13 @@ const registerProgram = asyncHandler(async (req, res, next) => {
     }
 
     const existedProgram = await program.findOne({
-        $or: {heading}
+        heading
     });
 
     if(existedProgram){
         throw new ApiError(401, "Program already exists");
     }
-
-    const imageLocalPath = req.file?.image[0]?.path;
+    const imageLocalPath =  await req.files?.image[0]?.path;
 
     if(!imageLocalPath){
         throw new ApiError(400, "Profile picture is required");
@@ -27,7 +27,7 @@ const registerProgram = asyncHandler(async (req, res, next) => {
 
     const image= await uploadOnCloudinary(imageLocalPath);
 
-    if(!avatar){
+    if(!image){
         throw new ApiError(400, "Something went wrong");
     }
 

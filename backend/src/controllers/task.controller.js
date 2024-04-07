@@ -5,12 +5,13 @@ import {ApiResponse} from "../utils/ApiResponse.js";
 
 const addTask = asyncHandler(async (req, res, next) => {
     const {heading, description, program_id, skill} = req.body;
+    console.log(req.body);
     if([heading, description, program_id, skill].some((field) => field?.trim() === "")){
         throw new ApiError(401, "All fields are required");
     }
 
     const existedtask = await task.findOne({
-        $or: {heading}
+        heading
     });
 
     if(existedtask){
