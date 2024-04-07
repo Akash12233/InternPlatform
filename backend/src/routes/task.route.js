@@ -6,11 +6,11 @@ import { verifyjwt } from "../middlewares/userauth.middleware.js";
 const taskrouter= Router();
 
 taskrouter.route("/taskbyid").get(verifyjwt, taskbyId)
-taskrouter.route("/alltasks").get(verifyjwt, allTasks)
-taskrouter.route("/addtask").post(verifyjwt, addTask)
-taskrouter.route("/deletetask").post(verifyjwt, deleteTask)
+taskrouter.route("/alltasks").get( allTasks)
+taskrouter.route("/addtask").post( addTask)
+taskrouter.route("/deletetask").delete( deleteTask)
 taskrouter.route("/updatetask").patch(verifyjwt, updateTask)
-taskrouter.route("/alltaskbyprogramid").get(verifyjwt, allTaskbyprogramId)
+taskrouter.route("/alltaskbyprogramid").post( allTaskbyprogramId)
 taskrouter.route("/gettaskdone").get(verifyjwt, gettaskdone)
 
 export default taskrouter

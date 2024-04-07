@@ -4,31 +4,42 @@ import { ApiError } from "../utils/ApiError.js";
 import {ApiResponse} from "../utils/ApiResponse.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
-const addsubTask = asyncHandler(async (req, res, next) => {
+const addsubTask = asyncHandler(async (req, res, next) => { 
     const {heading, description, task_id} = req.body;
     if([heading, description, task_id].some((field) => field?.trim() === "")){
         throw new ApiError(401, "All fields are required");
-    }
+    } 
 
     const existedsubtask = await subtask.findOne({
-        $or: {heading}
+        $or: [{heading: heading}]
     });
 
     if(existedsubtask){
         throw new ApiError(401, "SubTask already exists");
     }
-    const solutionLocalPath = req.file?.solution[0]?.path;
+    const solutionLocalPath = req.files?.solution[0]?.path;
 
     if(!solutionLocalPath){
-        throw new ApiError(400, "Profile picture is required");
+        throw new ApiError(400, "Solution is required");
     }
-
+ 
     const solution= await uploadOnCloudinary(solutionLocalPath);
 
-    if(!avatar){
+    if(!solution){
         throw new ApiError(400, "Something went wrong");
+    } 
+    let subtasks = await subtask.find({});
+    let id;
+    if(subtasks.length>0){
+        let last_task = subtasks.slice(-1);
+        let last = last_task[0];
+        id = last.id + 1
+    }
+    else{
+        id = 1
     }
     const newsubTask = await subtask.create({
+        id,
         heading,
         description, 
         task_id,
@@ -89,14 +100,14 @@ const allsubTaskbytaskId= asyncHandler(async (req, res, next) => {
 
 })
 const deletesubTask = asyncHandler(async (req, res, next) => {
-    const subTask_id= req.body;
-
+    const {subTask_id}= req.body;
+    console.log(subTask_id);
     if(!subTask_id){
         throw new ApiError(401, "SubTask id is required");
     }
 
     const result = await subtask.deleteOne({
-        _id: subTask_id,
+        id: subTask_id,
       });
     
     if (result.deletedCount === 0) {

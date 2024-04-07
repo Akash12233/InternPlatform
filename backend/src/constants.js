@@ -1,1 +1,1 @@
-export const DB_NAME = "Internship"
+export const DB_NAME = "MERNapp"

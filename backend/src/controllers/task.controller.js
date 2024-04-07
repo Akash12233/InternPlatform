@@ -5,25 +5,40 @@ import {ApiResponse} from "../utils/ApiResponse.js";
 
 const addTask = asyncHandler(async (req, res, next) => {
     const {heading, description, program_id, skill} = req.body;
+   console.log(req.body);
     if([heading, description, program_id, skill].some((field) => field?.trim() === "")){
         throw new ApiError(401, "All fields are required");
     }
 
     const existedtask = await task.findOne({
-        $or: {heading}
+        heading: heading
     });
 
     if(existedtask){
-        throw new ApiError(401, "Task already exists");
+        return res.status(401).json( new ApiError(401,null ,"Task already exists"));
     }
 
-    const skills= skill.split(",");
+    let skills= skill.split(",");
+    console.log(skills);
+    skills = skills.filter((el)=> el !== "");
+    console.log(skills);
 
+    let tasks = await task.find({});
+    let id;
+    if(tasks.length>0){
+        let last_task = tasks.slice(-1);
+        let last = last_task[0];
+        id = last.id + 1
+    }
+    else{
+        id = 1
+    }
     const newTask = await task.create({
+        id,
         heading,
         description, 
-        program_id,
-        skills
+        program_id: Number(program_id),
+        skills: skills
     })
 
     const createdTask= await task.findById(newTask._id);
@@ -65,10 +80,16 @@ const allTasks = asyncHandler(async (req, res, next) => {
 })
 
 const allTaskbyprogramId= asyncHandler(async (req, res, next) => {
-    const program_id= req.body;
+  console.log(req.body);
+    const {program_id}= req.body;
+    console.log(program_id);
     const existedtask = await task.findOne({
-        $or: {program_id}
-    });
+        $or: [
+            {
+                program_id:program_id
+            }
+        ]
+    }); 
 
     if(!existedtask){
         throw new ApiError(404, "Task not found");
@@ -80,18 +101,18 @@ const allTaskbyprogramId= asyncHandler(async (req, res, next) => {
 
 })
 const deleteTask = asyncHandler(async (req, res, next) => {
-    const Task_id= req.body;
+    const {Task_id}= req.body;
 
-    if(!Task_id){
-        throw new ApiError(401, "Task id is required");
+    if(!Task_id){ 
+        return res.status(401).json( new ApiError(401,null ,"Task id is required"));
     }
-
+    console.log(Task_id);
     const result = await task.deleteOne({
-        _id: Task_id,
+        id: Task_id,
       });
     
     if (result.deletedCount === 0) {
-        throw new ApiError(404, "Task not found");
+        return res.status(404).json( new ApiError(404, "Task not found"));
       }
     
     return res

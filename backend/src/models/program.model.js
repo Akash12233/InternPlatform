@@ -2,7 +2,15 @@ import mongoose from "mongoose";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 const programSchema = new mongoose.Schema({
+    id:{
+        type: Number,
+        required: true
+    },
     heading: {
+        type: String,
+        required: true 
+    },
+    shortDescription: {
         type: String,
         required: true
     },
@@ -21,20 +29,17 @@ const programSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    useropt:[{
-        type: mongoose.Schema.Types.ObjectId,
-        required:true,
-    }], 
+   
     keywords:[
         {
             type:String,
-            default:true
+            required:true
         }
     ],
     skills:[
         {
             type:String,
-            default:true
+            required:true
         }
     ]
 
