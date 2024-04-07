@@ -13,10 +13,10 @@ import { upload } from "../middlewares/multer.middleware.js";
 const subtaskrouter= Router();
 
 subtaskrouter.route("/subtaskbyid").get(verifyjwt, subtaskbyId)
-subtaskrouter.route("/allsubtasks").get(verifyjwt, allsubTasks)
+subtaskrouter.route("/allsubtasks").get( allsubTasks)
 subtaskrouter.route("/allsubtaskbytaskid").get(verifyjwt, allsubTaskbytaskId)
 
-subtaskrouter.route("/addsubtask").post(verifyjwt,
+subtaskrouter.route("/addsubtask").post(
     upload.fields([
     {
         name: "solution",
@@ -24,7 +24,7 @@ subtaskrouter.route("/addsubtask").post(verifyjwt,
     }
 ]), addsubTask)
 
-subtaskrouter.route("/deletesubtask").post(verifyjwt, deletesubTask)
+subtaskrouter.route("/deletesubtask").delete(deletesubTask)
 subtaskrouter.route("/updatesubtask").patch(verifyjwt, updatesubTask)
 subtaskrouter.route("/updatesolution").patch(verifyjwt, upload.single("solution"),updateSolution)
 

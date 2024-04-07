@@ -1,22 +1,27 @@
 import mongoose from "mongoose";
 
 const taskSchema = new mongoose.Schema({
+    id:{
+        type:Number,
+        required: true,
+    },
     heading: {
         type: String,
         required: true
     },
     description: {
-        type: String,
+        type: String, 
         required: true
-    },
+    }, 
     program_id:{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"program"
+            type:Number,
+            required: true
+            
     },
-    skils:[
+    skills:[
         {
             type:String,
-            default:true
+            required:true
         }
     ]
 },

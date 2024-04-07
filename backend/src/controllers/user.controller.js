@@ -28,32 +28,36 @@ const generateAccessTokenandRefreshToken = async(userId) => {
 
 const registerUser =asyncHandler(async (req, res)=>{
     // get user details from frontend
-
+// console.log(req.body);
+// console.log(req.files);
     const {firstname, lastname, username, email, password} = req.body;
 
-    if([ firstname,lastname,username,email, password].some((field) => field?.trim() === "")
-    ){
-        throw new ApiError (409,"All fields are required");
-    }
+     
     
     const existedUser = await user.findOne({
         $or: [{email}, {username}]
     });
 
     if(existedUser){
-        throw new ApiError(401, "User already exists");
+        return res.send( new ApiResponse(401, "Email or Username already exists"));
+        
+       
     }
 
     const avatarLocalPath = req.files?.avatar[0]?.path;
 
     if(!avatarLocalPath){
-        throw new ApiError(400, "Profile picture is required");
+        return res.send( new ApiResponse(400, "Please select an image"));
+        
+        
+        
     }
-
+    
     const avatar= await uploadOnCloudinary(avatarLocalPath);
-
+    // console.log(avatar);
     if(!avatar){
-        throw new ApiError(400, "Something went wrong");
+
+        return res.status(400).json( new ApiResponse(400, "Something went wrong"));
     }
 
     const User = await user.create({
@@ -70,7 +74,7 @@ const registerUser =asyncHandler(async (req, res)=>{
     )
 
     if(!createdUser){
-        throw new ApiError(500, "Something went wrong registering");
+       return res.status(500).json( new ApiResponse(500, "Something went wrong registering"));
     }
 
     return res
@@ -82,22 +86,22 @@ const registerUser =asyncHandler(async (req, res)=>{
 
 const loginUser= asyncHandler( async (req,res)=> {
     const {username, email, password} = req.body;
-    if(!username || !email){
-        throw new ApiError(400, "Email or username is required");
-    }
+    
 
     const User = await user.findOne({
         $or: [{email}, {username}]
     })
 
     if(!user){
-        throw new ApiError(404, "User not found");
+        return res.status(404).json("User not found");
+     
     }
     
     const ispasswordCorrect = await User.isPasswordCorrect(password);
 
     if(!ispasswordCorrect){
-        throw new ApiError (401, "Invalid user Creditials")
+        return res.status(401).json("Incorrect Password");
+       
     }
 
     const {accessToken, refreshToken}=await generateAccessTokenandRefreshToken(User._id);
@@ -108,12 +112,10 @@ const loginUser= asyncHandler( async (req,res)=> {
         httpOnly: true,
         secure:true
     }
-
+    res.cookie("accesstoken", accessToken,options)
+    res.cookie("refreshtoken", refreshToken,options)
     return res
-    .status(200)
-    .cookie("accesstoken", accessToken, options)
-    .cookie("refreshtoken", refreshToken, options)
-    .json(
+    .status(200).json(
         new ApiResponse(
             200,
             {
