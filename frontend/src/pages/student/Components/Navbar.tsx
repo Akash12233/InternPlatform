@@ -15,14 +15,16 @@ import axios from 'axios';
 
 const Navbar: React.FC = () => {
     const {user} = useAuthContext();
+    const {dispatch} = useAuthContext();
     const navigate = useNavigate();
     const handleSignOut = async() => {
         try {
-            const logoutuser= await axios.post('/api/v1/user/logout');
-            console.log(logoutuser);
+            await axios.post("/api/v1/user/logout");
             localStorage.removeItem("user");
             localStorage.removeItem("refreshToken");
             localStorage.removeItem("accessToken");
+            dispatch({type: "LOGOUT"});
+            navigate("/");
 
         } catch (error) {
             console.log(error);
