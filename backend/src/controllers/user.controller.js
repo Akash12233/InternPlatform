@@ -27,37 +27,30 @@ const generateAccessTokenandRefreshToken = async(userId) => {
 };
 
 const registerUser =asyncHandler(async (req, res)=>{
-    // get user details from frontend
-// console.log(req.body);
-// console.log(req.files);
+ 
+ console.log(req.body);
     const {firstname, lastname, username, email, password} = req.body;
 
-     
     
     const existedUser = await user.findOne({
         $or: [{email}, {username}]
     });
 
     if(existedUser){
-        return res.send( new ApiResponse(401, "Email or Username already exists"));
-        
-       
+        throw new ApiError(400, "User already exists");  
     }
 
     const avatarLocalPath = req.files?.avatar[0]?.path;
 
     if(!avatarLocalPath){
-        return res.send( new ApiResponse(400, "Please select an image"));
-        
-        
+        throw new ApiError(400, "Profile picture is required"); 
         
     }
     
     const avatar= await uploadOnCloudinary(avatarLocalPath);
     // console.log(avatar);
     if(!avatar){
-
-        return res.status(400).json( new ApiResponse(400, "Something went wrong"));
+        throw new ApiError(400, "image saving went wrong");
     }
 
     const User = await user.create({
@@ -74,7 +67,7 @@ const registerUser =asyncHandler(async (req, res)=>{
     )
 
     if(!createdUser){
-       return res.status(500).json( new ApiResponse(500, "Something went wrong registering"));
+        throw new ApiError(400, "User not created");
     }
 
     return res
@@ -85,14 +78,16 @@ const registerUser =asyncHandler(async (req, res)=>{
 });
 
 const loginUser= asyncHandler( async (req,res)=> {
-    const {username, email, password} = req.body;
+    const {email, password} = req.body;
     
+    console.log(email, password);
+    const User = await user.findOne(
+        {
+            email:email
+        }
+    )
 
-    const User = await user.findOne({
-        $or: [{email}, {username}]
-    })
-
-    if(!user){
+    if(!User){
         return res.status(404).json("User not found");
      
     }
@@ -146,9 +141,9 @@ const logoutUser = asyncHandler( async ( req, res, next)=>{
     }
 
     return res
-    .status(400)
     .clearcookie("accesstoken", options)
     .clearcookie("refreshtoken", options)
+    .status(400)
     .json(
         new ApiResponse(200, {}, "User Logged out")
     )

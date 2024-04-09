@@ -39,14 +39,13 @@ const Register: React.FC = () => {
         
         if(formData != null){
             try {
-                const upload = await axios.post("http://localhost:8000/api/v1/user/register",formData, {
+                const upload = await axios.post("/api/v1/user/register",formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     }
                 })
-                 console.log(upload.data.data);
                  if(upload.data.success){
-                    setError(upload.data.data);
+                    setError(upload.data.message);
                  }
             setLoader(false);
             } catch (error:any) {
@@ -55,9 +54,7 @@ const Register: React.FC = () => {
                 setLoader(false);
                 setError(error.data.data);
                 
-            }
-            
-            
+            }    
             // Upload the image to your server here
         }
         else{

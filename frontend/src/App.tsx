@@ -23,8 +23,6 @@ function App() {
    
       <Routes>
         <Route element={<PageLayout />} >
-
-       
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/programs" element={<Program />} />
@@ -32,10 +30,9 @@ function App() {
         </Route>
         <Route path='/login' element={<Login/>} />
         <Route path='/signup' element={<Register/>} />
+        
         <Route element={<StudentPageLayout />} >
           <Route path='/student/dashboard' element={<Dashboard/>}/>
-
-
         </Route>
     <Route path="*" element={<Error />} />
       </Routes>

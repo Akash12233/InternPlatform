@@ -3,8 +3,8 @@ import React, {  useState } from 'react'
 import { logo } from '../../assets'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import axios from 'axios';
-
 import { useAuthContext } from '../../hooks/useAuthContext';
+import {useNavigate} from "react-router-dom";
 
 type Inputs = {
     email: string;
@@ -12,27 +12,31 @@ type Inputs = {
 }
 const Login: React.FC = () => {
     document.title = "Login";
+    const navigate = useNavigate();
     const {dispatch} = useAuthContext()
     const [error, setError] = useState("");
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
     const onSubmit: SubmitHandler<Inputs>= async(data) =>{
         setError("");
-        console.log(data);
+        
         try {
-            const user = await axios.post("http://localhost:8000/api/v1/user/login", {
+            const user = await axios.post("/api/v1/user/login", {
             email: data.email,
             password: data.password
         });
-        console.log(user.data.data.user);
+        console.log(user);
+        
         localStorage.setItem("user", JSON.stringify(user.data.data.user));
         localStorage.setItem("refreshToken", user.data.data.refreshToken);
         localStorage.setItem("accessToken", user.data.data.accessToken);
         dispatch({type: "LOGIN", payload: user.data.data.user, refreshToken: user.data.data.refreshToken, accessToken: user.data.data.accessToken});
-        } catch (error:any) {
+        navigate("/student/dashboard");
+        }
+        
+        catch (error:any) {
             console.log(error.response.data);
-            setError(error.response.data);
-            
+            setError(error.response.data);    
         }
         
         

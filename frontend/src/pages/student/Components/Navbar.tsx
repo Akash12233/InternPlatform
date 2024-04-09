@@ -1,6 +1,6 @@
 import React from 'react'
 import { logo } from '../../../assets'
-import { Link } from 'react-router-dom'
+import { Link , useNavigate} from 'react-router-dom'
 
 import {
     Menu,
@@ -11,9 +11,23 @@ import {
     Typography,
   } from "@material-tailwind/react";
 import { useAuthContext } from '../../../hooks/useAuthContext';
+import axios from 'axios';
 
 const Navbar: React.FC = () => {
     const {user} = useAuthContext();
+    const navigate = useNavigate();
+    const handleSignOut = async() => {
+        try {
+            const logoutuser= await axios.post('/api/v1/user/logout');
+            console.log(logoutuser);
+            localStorage.removeItem("user");
+            localStorage.removeItem("refreshToken");
+            localStorage.removeItem("accessToken");
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
   return (
     <nav className='flex justify-between items-center p-1 bg-black' >
         <img src={logo} alt="Logo" className='w-36' />
@@ -87,7 +101,7 @@ const Navbar: React.FC = () => {
                         fill="#90A4AE"
                         />
                     </svg>
-                    <Typography variant="small" className="font-medium"  placeholder={undefined}>
+                    <Typography variant="small" className="font-medium"  placeholder={undefined} onClick={handleSignOut}>
                         Sign Out
                     </Typography>
                     </MenuItem>
